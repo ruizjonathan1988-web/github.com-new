@@ -47,6 +47,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
@@ -333,6 +334,7 @@ private fun SidePanel(
                 cb.update { st -> st.copy(overrides = emptyMap(), tweaks = fr.jon.basse.UserTweaks()) }
             })
         }
+        PrepareCard(accent)
         Card {
             ToggleRow("Mode global", "Égalise tout le son du système (session 0). Sinon, seulement les lecteurs compatibles.", s.globalMode, accent) {
                 cb.update { st -> st.copy(globalMode = it) }
@@ -340,20 +342,18 @@ private fun SidePanel(
         }
         Card {
             Row(Modifier.fillMaxWidth().tv(accent) { showPeq = !showPeq }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text("Valeurs PEQ (FiiO Control / BTR13)", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                Text("Détail des filtres", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                 Text(if (showPeq) "▲" else "▼", color = accent)
             }
             AnimatedVisibility(showPeq, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                 Column(Modifier.padding(top = 8.dp)) {
-                    Text("Préampli : %.1f dB · %d filtres%s".format(preamp, chain.size, if (chain.size > 10) " (BTR13 : 10 max)" else ""),
+                    Text("Préampli : %.1f dB · %d filtres%s".format(preamp, chain.size, ""),
                         color = TextDim, fontSize = 12.sp)
                     chain.forEachIndexed { i, f ->
                         val type = when (f.type) { "LS" -> "Low shelf"; "HS" -> "High shelf"; else -> "Peak" }
                         Text("${i + 1}. $type · ${Curve.fmtHz(f.f)} · %+.1f dB · Q %.1f".format(f.g, f.q),
                             color = Color.White, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
                     }
-                    Text("Ne cumulez pas avec le PEQ du BTR13 : utilisez l'un ou l'autre.", color = TextDim, fontSize = 11.sp,
-                        modifier = Modifier.padding(top = 6.dp))
                 }
             }
         }
@@ -514,5 +514,85 @@ private fun ValueRow(label: String, value: String, accent: Color, minus: () -> U
         Text(value, color = accent, fontWeight = FontWeight.Bold, fontSize = 14.sp,
             modifier = Modifier.width(92.dp).padding(horizontal = 8.dp))
         StepBtn("+", accent, plus)
+    }
+}
+
+
+// ---------- Préparer le téléphone ----------
+
+private data class PrepItem(val id: String, val title: String, val how: String, val open: (android.content.Context) -> Boolean)
+
+private fun launchPkg(ctx: android.content.Context, pkg: String): Boolean {
+    val i = ctx.packageManager.getLaunchIntentForPackage(pkg)
+        ?: ctx.packageManager.getLeanbackLaunchIntentForPackage(pkg) ?: return false
+    return runCatching { ctx.startActivity(i.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)); true }.getOrDefault(false)
+}
+
+private fun startAny(ctx: android.content.Context, vararg intents: android.content.Intent): Boolean {
+    for (i in intents) {
+        val ok = runCatching { ctx.startActivity(i.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)); true }.getOrDefault(false)
+        if (ok) return true
+    }
+    return false
+}
+
+private val prepItems = listOf(
+    PrepItem("samsung", "Effets sonores du téléphone",
+        "Sons et vibrations > Qualité et effets sonores : couper l'égaliseur, Dolby Atmos et Adapt Sound. Sur la box : Paramètres > Son, couper les effets.") { ctx ->
+        startAny(ctx,
+            android.content.Intent().setClassName("com.sec.android.app.soundalive", "com.sec.android.app.soundalive.SAControlPanelActivity"),
+            android.content.Intent(android.provider.Settings.ACTION_SOUND_SETTINGS))
+    },
+    PrepItem("spotify", "Spotify",
+        "Paramètres > Lecture : égaliseur coupé, normalisation sur Normal. Qualité audio : Lossless ou Très élevée.") { launchPkg(it, "com.spotify.music") },
+    PrepItem("ytmusic", "YouTube Music",
+        "Paramètres > Qualité audio : Élevée / Toujours élevée, en Wi-Fi et en données mobiles.") { launchPkg(it, "com.google.android.apps.youtube.music") },
+    PrepItem("youtube", "YouTube",
+        "Pendant une vidéo : roue dentée > Paramètres supplémentaires > Volume stable désactivé.") { ctx ->
+        launchPkg(ctx, "com.google.android.youtube") || launchPkg(ctx, "com.google.android.youtube.tv")
+    },
+)
+
+@Composable
+private fun PrepareCard(accent: Color) {
+    val ctx = LocalContext.current
+    val prefs = remember { ctx.getSharedPreferences("basse_prep", android.content.Context.MODE_PRIVATE) }
+    var open by rememberSaveable { mutableStateOf(false) }
+    var done by remember { mutableStateOf(prepItems.filter { prefs.getBoolean(it.id, false) }.map { it.id }.toSet()) }
+    var missing by remember { mutableStateOf<String?>(null) }
+    Card {
+        Row(Modifier.fillMaxWidth().tv(accent) { open = !open }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text("Préparer mon téléphone", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("${done.size}/${prepItems.size} réglages faits · pour éviter que deux égaliseurs se cumulent", color = TextDim, fontSize = 11.sp)
+            }
+            Text(if (open) "▲" else "▼", color = accent)
+        }
+        AnimatedVisibility(open, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 6.dp)) {
+                prepItems.forEach { item ->
+                    val isDone = item.id in done
+                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Glass).padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(if (isDone) "✓" else "○", color = if (isDone) accent else TextDim, fontWeight = FontWeight.Black,
+                                modifier = Modifier.tv(accent, RoundedCornerShape(50)) {
+                                    done = if (isDone) done - item.id else done + item.id
+                                    prefs.edit().putBoolean(item.id, !isDone).apply()
+                                }.padding(6.dp))
+                            Spacer(Modifier.width(6.dp))
+                            Text(item.title, color = Color.White, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                            ActionChip("Ouvrir", accent, onClick = {
+                                missing = if (item.open(ctx)) null else "${item.title} n'est pas installé ou ne s'ouvre pas ici."
+                            }, filled = true)
+                        }
+                        Text(item.how, color = TextDim, fontSize = 12.sp)
+                    }
+                }
+                missing?.let { Text(it, color = Color(0xFFFFB020), fontSize = 12.sp) }
+                Text("Touchez le rond pour cocher un réglage fait. Android ne permet pas à une appli de les changer à votre place.",
+                    color = TextDim, fontSize = 11.sp)
+            }
+        }
     }
 }
