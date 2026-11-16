@@ -30,6 +30,12 @@ data class EqSettings(
     /** Préampli réduit : on garde le niveau, le limiteur gère les pics. */
     val keepVolume: Boolean = false,
     val favorites: List<String> = emptyList(),
+    /** Balance -1 (gauche) .. +1 (droite), ±6 dB au maximum. */
+    val balance: Double = 0.0,
+    /** Plafond du limiteur en dBFS (protection). */
+    val ceilingDb: Double = -1.0,
+    /** Réglages perso créés par Jon. */
+    val customs: List<Preset> = emptyList(),
 )
 
 data class EngineStatus(
@@ -51,6 +57,61 @@ object EqState {
     val status: StateFlow<EngineStatus> = _status.asStateFlow()
 
     @Volatile private var ready = false
+    @Volatile private var customsCache: List<Preset> = emptyList()
+
+    private fun persoFamily(list: List<Preset>) = Family(
+        "perso", "Mes réglages", androidx.compose.ui.graphics.Color(0xFF2A1E00), androidx.compose.ui.graphics.Color(0xFF0A0700),
+        androidx.compose.ui.graphics.Color(0xFFFFD166), "rings", false, list,
+    )
+
+    /** Recherche dans les réglages perso puis dans le catalogue. */
+    fun find(id: String?): Pair<Family, Preset>? {
+        if (id == null) return null
+        customsCache.firstOrNull { it.id == id }?.let { return persoFamily(customsCache) to it }
+        return catalog.find(id)
+    }
+
+    fun parentOf(id: String): Preset? = customsCache.firstOrNull { it.id == id } ?: catalog.parentOf(id)
+
+    fun families(s: EqSettings): List<Family> =
+        if (s.customs.isEmpty()) catalog.families else listOf(persoFamily(s.customs)) + catalog.families
+
+    /** Copie le réglage courant (avec vos modifs) en réglage perso et le sélectionne. */
+    fun duplicate(ctx: Context, from: Preset) {
+        val s = settings.value
+        val id = "perso." + System.currentTimeMillis()
+        val p = Preset(id, from.name + " perso", from.bpm, "Réglage perso basé sur ${from.name}", styleFilters(s, from))
+        update(ctx) { it.copy(customs = it.customs + p) }
+        select(ctx, id)
+    }
+
+    fun renameCustom(ctx: Context, id: String, name: String) =
+        update(ctx) { st -> st.copy(customs = st.customs.map { if (it.id == id) it.copy(name = name) else it }) }
+
+    fun deleteCustom(ctx: Context, id: String) {
+        update(ctx) { st ->
+            val rest = st.customs.filter { it.id != id }
+            st.copy(customs = rest, overrides = st.overrides - id, favorites = st.favorites - id,
+                presetId = if (st.presetId == id) st.lastMusicId.takeIf { it != id } ?: "dnb.drum_et_bass" else st.presetId,
+                lastMusicId = if (st.lastMusicId == id) "dnb.drum_et_bass" else st.lastMusicId)
+        }
+    }
+
+    private fun encodeCustoms(list: List<Preset>): String = JSONArray().apply {
+        list.forEach { p ->
+            put(JSONObject().put("id", p.id).put("name", p.name).put("bpm", p.bpm).put("desc", p.desc)
+                .put("filters", JSONObject(encode(mapOf("x" to p.filters))).getJSONArray("x")))
+        }
+    }.toString()
+
+    private fun decodeCustoms(str: String?): List<Preset> = runCatching {
+        val a = JSONArray(str ?: "[]")
+        (0 until a.length()).map { i ->
+            val o = a.getJSONObject(i)
+            val fl = decode(JSONObject().put("x", o.getJSONArray("filters")).toString())["x"].orEmpty()
+            Preset(o.getString("id"), o.getString("name"), o.optInt("bpm", 0), o.optString("desc"), fl)
+        }
+    }.getOrDefault(emptyList())
 
     @Synchronized
     fun init(ctx: Context) {
@@ -58,7 +119,8 @@ object EqState {
         catalog = Catalog.load(ctx.applicationContext)
         val p = ctx.getSharedPreferences(P, Context.MODE_PRIVATE)
         val d = EqSettings()
-        fun valid(id: String?, def: String) = if (catalog.find(id) != null) id!! else def
+        customsCache = decodeCustoms(p.getString("customs", null))
+        fun valid(id: String?, def: String) = if (find(id) != null) id!! else def
         _settings.value = EqSettings(
             enabled = p.getBoolean("enabled", d.enabled),
             presetId = valid(p.getString("preset", null), d.presetId),
@@ -80,7 +142,10 @@ object EqState {
             pauseOnSpeaker = p.getBoolean("pauseSpeaker", true),
             loudness = p.getBoolean("loudness", false),
             keepVolume = p.getBoolean("keepVolume", false),
-            favorites = p.getString("favorites", "")!!.split(",").filter { catalog.find(it) != null },
+            favorites = p.getString("favorites", "")!!.split(",").filter { find(it) != null },
+            balance = p.getFloat("balance", 0f).toDouble(),
+            ceilingDb = p.getFloat("ceiling", -1f).toDouble(),
+            customs = customsCache,
         )
         ready = true
     }
@@ -88,6 +153,7 @@ object EqState {
     fun update(ctx: Context, f: (EqSettings) -> EqSettings) {
         _settings.update(f)
         val s = _settings.value
+        customsCache = s.customs
         ctx.getSharedPreferences(P, Context.MODE_PRIVATE).edit()
             .putBoolean("enabled", s.enabled)
             .putString("preset", s.presetId)
@@ -105,11 +171,14 @@ object EqState {
             .putBoolean("loudness", s.loudness)
             .putBoolean("keepVolume", s.keepVolume)
             .putString("favorites", s.favorites.joinToString(","))
+            .putFloat("balance", s.balance.toFloat())
+            .putFloat("ceiling", s.ceilingDb.toFloat())
+            .putString("customs", encodeCustoms(s.customs))
             .apply()
     }
 
     fun select(ctx: Context, id: String) {
-        val fam = catalog.find(id)?.first ?: return
+        val fam = find(id)?.first ?: return
         update(ctx) {
             if (fam.isVideo) it.copy(presetId = id, lastVideoId = id) else it.copy(presetId = id, lastMusicId = id)
         }
@@ -138,7 +207,7 @@ object EqState {
             AppRules.VIDEO -> s.lastVideoId
             else -> rule
         }
-        if (catalog.find(target) == null || target == s.presetId) return
+        if (find(target) == null || target == s.presetId) return
         // on ne touche pas aux "derniers" choisis : la bascule ne doit pas écraser vos préférences
         update(ctx) { it.copy(presetId = target) }
     }
@@ -157,7 +226,7 @@ object EqState {
 
     /** Chaîne complète de filtres actuellement demandée. */
     fun currentChain(s: EqSettings = settings.value, o: OutputInfo = output.value, vol: Float = volume.value): List<Filter> {
-        val preset = catalog.find(s.presetId)?.second ?: return emptyList()
+        val preset = find(s.presetId)?.second ?: return emptyList()
         val base = Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks.copy(ft1 = ft1Effective(s, o)))
         val l = loudnessDb(s, vol)
         return if (l <= 0.05) base else base + listOf(Filter("LS", 70.0, l, 0.7), Filter("HS", 10000.0, l * 0.5, 0.7))
@@ -191,6 +260,8 @@ object EqState {
             .put("overrides", JSONObject(encode(s.overrides)))
             .put("appRules", JSONObject(s.appRules as Map<*, *>))
             .put("favorites", JSONArray(s.favorites))
+            .put("customs", JSONArray(encodeCustoms(s.customs)))
+            .put("balance", s.balance).put("ceiling", s.ceilingDb)
             .put("bass", s.tweaks.bassDb).put("treble", s.tweaks.trebleDb).put("ft1", s.tweaks.ft1)
             .toString(1)
     }
@@ -200,9 +271,12 @@ object EqState {
         require(o.optString("app") == "basse")
         val ov = decode(o.getJSONObject("overrides").toString())
         val rules = o.getJSONObject("appRules").let { r -> r.keys().asSequence().associateWith { r.getString(it) } }
-        val fav = o.getJSONArray("favorites").let { a -> (0 until a.length()).map { a.getString(it) } }.filter { catalog.find(it) != null }
+        val fav = o.getJSONArray("favorites").let { a -> (0 until a.length()).map { a.getString(it) } }.filter { find(it) != null || it.startsWith("perso.") }
+        val cus = decodeCustoms(o.optJSONArray("customs")?.toString())
+        customsCache = cus
         update(ctx) {
-            it.copy(overrides = ov, appRules = rules, favorites = fav,
+            it.copy(customs = cus, overrides = ov, appRules = rules, favorites = fav,
+                balance = o.optDouble("balance", 0.0), ceilingDb = o.optDouble("ceiling", -1.0),
                 tweaks = it.tweaks.copy(bassDb = o.optDouble("bass", 0.0), trebleDb = o.optDouble("treble", 0.0), ft1 = o.optBoolean("ft1", true)))
         }
         true

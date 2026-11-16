@@ -90,10 +90,11 @@ data class UiCallbacks(
 @Composable
 fun BasseApp(settings: EqSettings, status: EngineStatus, output: fr.jon.basse.OutputInfo, lastApp: String?, tick: Int, cb: UiCallbacks) {
     val cat = EqState.catalog
-    val (activeFam, activePreset) = cat.find(settings.presetId) ?: (cat.families.first() to cat.families.first().styles.first())
+    val allFams = EqState.families(settings)
+    val (activeFam, activePreset) = EqState.find(settings.presetId) ?: (cat.families.first() to cat.families.first().styles.first())
     var browseFamId by rememberSaveable { mutableStateOf(activeFam.id) }
     LaunchedEffect(activeFam.id) { browseFamId = activeFam.id }
-    val browseFam = cat.families.firstOrNull { it.id == browseFamId } ?: activeFam
+    val browseFam = allFams.firstOrNull { it.id == browseFamId } ?: activeFam
     val videoMode = activeFam.isVideo
 
     // Le thème suit la famille parcourue : il change dès qu'on change de style ou de mode.
@@ -149,8 +150,8 @@ private fun Browser(
     header: Boolean, panel: (@Composable (Modifier) -> Unit)?, modifier: Modifier,
 ) {
     val cat = EqState.catalog
-    val families = cat.families.filter { it.isVideo == videoMode }
-    val parent = cat.parentOf(settings.presetId)
+    val families = EqState.families(settings).filter { it.isVideo == videoMode }
+    val parent = EqState.parentOf(settings.presetId)
     val list = rememberLazyListState()
 
     LazyColumn(modifier, state = list, verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -160,7 +161,7 @@ private fun Browser(
         if (settings.favorites.isNotEmpty()) item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 2.dp, vertical = 4.dp)) {
                 items(settings.favorites, key = { "fav-$it" }) { id ->
-                    val (f, p) = cat.find(id) ?: return@items
+                    val (f, p) = EqState.find(id) ?: return@items
                     val sel = settings.presetId == id
                     Text("★ ${p.name}", color = if (sel) Color.Black else Color.White, fontWeight = FontWeight.SemiBold, fontSize = 13.sp,
                         modifier = Modifier.tv(f.accent, RoundedCornerShape(50)) { cb.select(id) }
@@ -354,6 +355,18 @@ private fun SidePanel(
             Stepper("Grave (80 Hz)", s.tweaks.bassDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(bassDb = v)) } }
             Stepper("Aigus (8 kHz)", s.tweaks.trebleDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(trebleDb = v)) } }
             Text("Avec des lunettes, le FT1 perd du grave : montez le Grave de 2 dB.", color = TextDim, fontSize = 11.sp)
+            ValueRow("Balance", when {
+                s.balance > 0.01 -> "D %+.0f %%".format(s.balance * 100)
+                s.balance < -0.01 -> "G %+.0f %%".format(-s.balance * 100)
+                else -> "Centre"
+            }, accent,
+                minus = { cb.update { st -> st.copy(balance = (Math.round((st.balance - 0.1) * 10) / 10.0).coerceAtLeast(-1.0)) } },
+                plus = { cb.update { st -> st.copy(balance = (Math.round((st.balance + 0.1) * 10) / 10.0).coerceAtMost(1.0)) } })
+            ValueRow("Plafond de sécurité", "%.0f dB".format(s.ceilingDb), accent,
+                minus = { cb.update { st -> st.copy(ceilingDb = (st.ceilingDb - 1).coerceAtLeast(-15.0)) } },
+                plus = { cb.update { st -> st.copy(ceilingDb = (st.ceilingDb + 1).coerceAtMost(-1.0)) } })
+            Text("Le plafond limite les pics sous le maximum : à -6 dB, même un drop énorme ne dépasse pas ce niveau.",
+                color = TextDim, fontSize = 11.sp)
             ToggleRow("Loudness automatique", "À volume bas, remonte le sub (jusqu'à +6 dB) et les aigus pour garder l'impact", s.loudness, accent) {
                 cb.update { st -> st.copy(loudness = it) }
             }
@@ -381,7 +394,7 @@ private fun SidePanel(
                     Text("Préampli : %.1f dB · %d filtres%s".format(preamp, chain.size, ""),
                         color = TextDim, fontSize = 12.sp)
                     chain.forEachIndexed { i, f ->
-                        val type = when (f.type) { "LS" -> "Low shelf"; "HS" -> "High shelf"; else -> "Peak" }
+                        val type = typeName(f.type)
                         Text("${i + 1}. $type · ${Curve.fmtHz(f.f)} · %+.1f dB · Q %.1f".format(f.g, f.q),
                             color = Color.White, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
                     }
@@ -459,8 +472,11 @@ private fun roundHz(f: Double): Double = when {
     else -> (Math.round(f / 50) * 50).toDouble()
 }
 
-private fun typeName(t: String) = when (t) { "LS" -> "Grave (shelf)"; "HS" -> "Aigu (shelf)"; else -> "Bosse (peak)" }
-private fun nextType(t: String) = when (t) { "PK" -> "LS"; "LS" -> "HS"; else -> "PK" }
+private fun typeName(t: String) = when (t) {
+    "LS" -> "Grave (shelf)"; "HS" -> "Aigu (shelf)"; "HP" -> "Coupe-bas"; "LP" -> "Coupe-haut"; "NO" -> "Encoche (coupe étroite)"
+    else -> "Bosse (peak)"
+}
+private fun nextType(t: String) = when (t) { "PK" -> "LS"; "LS" -> "HS"; "HS" -> "HP"; "HP" -> "LP"; "LP" -> "NO"; else -> "PK" }
 
 @Composable
 private fun StyleEditor(s: EqSettings, preset: Preset, accent: Color, cb: UiCallbacks) {
@@ -498,13 +514,26 @@ private fun StyleEditor(s: EqSettings, preset: Preset, accent: Color, cb: UiCall
                         ValueRow("Fréquence", Curve.fmtHz(f.f), accent,
                             minus = { edit(i) { it.copy(f = roundHz((it.f / 1.122462).coerceAtLeast(20.0))) } },
                             plus = { edit(i) { it.copy(f = roundHz((it.f * 1.122462).coerceAtMost(20000.0))) } })
-                        ValueRow("Gain", "%+.1f dB".format(f.g), accent,
+                        if (f.type in setOf("PK", "LS", "HS")) ValueRow("Gain", "%+.1f dB".format(f.g), accent,
                             minus = { edit(i) { it.copy(g = (it.g - 0.5).coerceAtLeast(-12.0)) } },
                             plus = { edit(i) { it.copy(g = (it.g + 0.5).coerceAtMost(12.0)) } })
                         ValueRow("Largeur (Q)", "%.1f".format(f.q), accent,
                             minus = { edit(i) { it.copy(q = ((it.q - if (it.q > 2) 0.5 else 0.1) * 10).let { v -> Math.round(v) / 10.0 }.coerceAtLeast(0.3)) } },
                             plus = { edit(i) { it.copy(q = ((it.q + if (it.q >= 2) 0.5 else 0.1) * 10).let { v -> Math.round(v) / 10.0 }.coerceAtMost(8.0)) } })
                     }
+                }
+                val ctx = LocalContext.current
+                val isCustom = preset.id.startsWith("perso.")
+                if (isCustom) {
+                    var name by remember(preset.id) { mutableStateOf(preset.name) }
+                    androidx.compose.material3.OutlinedTextField(
+                        value = name, onValueChange = { name = it; if (it.isNotBlank()) EqState.renameCustom(ctx, preset.id, it.trim()) },
+                        label = { Text("Nom du réglage") }, singleLine = true, modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ActionChip("⧉ Dupliquer en réglage perso", accent, onClick = { EqState.duplicate(ctx, preset) })
+                    if (isCustom) ActionChip("Supprimer ce réglage", accent, onClick = { EqState.deleteCustom(ctx, preset.id) })
                 }
                 FlowRowActions(accent, canAdd = list.size < 8, modified = modified,
                     onAdd = { save(list + fr.jon.basse.Filter("PK", 1000.0, 0.0, 1.0)) },
@@ -646,7 +675,7 @@ private fun AutoCard(
         fr.jon.basse.AppRules.MUSIC -> "Musique (dernier style)"
         fr.jon.basse.AppRules.VIDEO -> "Vidéo (dernier réglage)"
         fr.jon.basse.AppRules.NONE -> "ne rien changer"
-        else -> EqState.catalog.find(r)?.second?.name ?: r
+        else -> EqState.find(r)?.second?.name ?: r
     }
     Card {
         Row(Modifier.fillMaxWidth().tv(accent) { open = !open }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {

@@ -125,6 +125,9 @@ object Curve {
                 a * ((a + 1) + (a - 1) * cw + sa), -2 * a * ((a - 1) + (a + 1) * cw), a * ((a + 1) + (a - 1) * cw - sa),
                 (a + 1) - (a - 1) * cw + sa, 2 * ((a - 1) - (a + 1) * cw), (a + 1) - (a - 1) * cw - sa,
             )
+            "LP" -> doubleArrayOf((1 - cw) / 2, 1 - cw, (1 - cw) / 2, 1 + alpha, -2 * cw, 1 - alpha)
+            "HP" -> doubleArrayOf((1 + cw) / 2, -(1 + cw), (1 + cw) / 2, 1 + alpha, -2 * cw, 1 - alpha)
+            "NO" -> doubleArrayOf(1.0, -2 * cw, 1.0, 1 + alpha, -2 * cw, 1 - alpha)
             else -> doubleArrayOf(1 + alpha * a, -2 * cw, 1 - alpha * a, 1 + alpha / a, -2 * cw, 1 - alpha / a)
         }
         return doubleArrayOf(c[0] / c[3], c[1] / c[3], c[2] / c[3], c[4] / c[3], c[5] / c[3])
@@ -141,7 +144,7 @@ object Curve {
             val dr = 1.0 + k[3] * c1 + k[4] * c2
             val di = -(k[3] * s1 + k[4] * s2)
             val mag2 = (nr * nr + ni * ni) / (dr * dr + di * di)
-            db += 10.0 * log10(mag2)
+            db += 10.0 * log10(mag2.coerceAtLeast(1e-6))
         }
         return db
     }

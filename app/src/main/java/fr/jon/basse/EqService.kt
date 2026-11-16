@@ -77,7 +77,7 @@ class EqService : Service() {
                     stopSelf()
                     return@collect
                 }
-                engine.setCurve(EqState.currentChain(s, o, v), s.keepVolume)
+                engine.setCurve(EqState.currentChain(s, o, v), s.keepVolume, s.balance, s.ceilingDb)
                 if (lastGlobalWanted != s.globalMode) {
                     lastGlobalWanted = s.globalMode
                     if (s.globalMode) engine.attach(0) else engine.detach(0)
@@ -138,7 +138,7 @@ class EqService : Service() {
     }
 
     private fun buildNotification(s: EqSettings): Notification {
-        val name = EqState.catalog.find(s.presetId)?.second?.name ?: "—"
+        val name = EqState.find(s.presetId)?.second?.name ?: "—"
         val open = PendingIntent.getActivity(
             this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE,
         )

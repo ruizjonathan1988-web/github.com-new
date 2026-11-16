@@ -20,6 +20,8 @@ class EqEngine {
     private var bandCutoffs = FloatArray(BANDS)
     private var bandGains = FloatArray(BANDS)
     private var preamp = 0f
+    private var balance = 0f
+    private var ceiling = -1f
     var active = false
         private set
 
@@ -28,12 +30,14 @@ class EqEngine {
         for (i in 0 until BANDS) bandCutoffs[i] = (20.0 * Math.pow(1000.0, (i + 1).toDouble() / BANDS)).toFloat()
     }
 
-    fun setCurve(chain: List<Filter>, keepVolume: Boolean = false) {
+    fun setCurve(chain: List<Filter>, keepVolume: Boolean = false, balance: Double = 0.0, ceilingDb: Double = -1.0) {
+        this.balance = balance.toFloat()
+        this.ceiling = ceilingDb.toFloat()
         val k = chain.map { Curve.coeffs(it) }
         for (i in 0 until BANDS) {
             val lo = if (i == 0) 10.0 else bandCutoffs[i - 1].toDouble()
             val center = sqrt(lo * bandCutoffs[i])
-            bandGains[i] = Curve.responseDb(k, center).toFloat()
+            bandGains[i] = Curve.responseDb(k, center).toFloat().coerceIn(-30f, 15f)
         }
         preamp = (Curve.autoPreamp(chain) * if (keepVolume) 0.35 else 1.0).toFloat()
         effects.values.forEach { push(it) }
@@ -45,11 +49,17 @@ class EqEngine {
         return eq
     }
 
-    private fun limiter() = DynamicsProcessing.Limiter(true, true, 0, 1f, 60f, 10f, -1f, 0f)
+    private fun limiter() = DynamicsProcessing.Limiter(true, true, 0, 1f, 60f, 10f, ceiling, 0f)
+
+    private fun gainFor(ch: Int): Float {
+        // balance > 0 : on baisse la gauche ; < 0 : on baisse la droite
+        val cut = kotlin.math.abs(balance) * 6f
+        return preamp - when { ch == 0 && balance > 0 -> cut; ch == 1 && balance < 0 -> cut; else -> 0f }
+    }
 
     private fun push(dp: DynamicsProcessing) {
         try {
-            dp.setInputGainAllChannelsTo(preamp)
+            for (ch in 0 until 2) dp.setInputGainbyChannel(ch, gainFor(ch))
             dp.setPreEqAllChannelsTo(buildEq())
             dp.setLimiterAllChannelsTo(limiter())
             dp.enabled = active
@@ -71,6 +81,7 @@ class EqEngine {
                 .setLimiterAllChannelsTo(limiter())
                 .build()
             val dp = DynamicsProcessing(PRIORITY, session, cfg)
+            runCatching { for (ch in 0 until 2) dp.setInputGainbyChannel(ch, gainFor(ch)) }
             dp.enabled = active
             effects[session] = dp
             true

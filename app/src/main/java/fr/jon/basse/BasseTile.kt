@@ -24,7 +24,7 @@ class BasseTile : TileService() {
         val tile = qsTile ?: return
         tile.state = if (s.enabled) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         tile.label = "Basse"
-        if (android.os.Build.VERSION.SDK_INT >= 29) tile.subtitle = if (s.enabled) EqState.catalog.find(s.presetId)?.second?.name else "Coupé"
+        if (android.os.Build.VERSION.SDK_INT >= 29) tile.subtitle = if (s.enabled) EqState.find(s.presetId)?.second?.name else "Coupé"
         tile.updateTile()
     }
 }
