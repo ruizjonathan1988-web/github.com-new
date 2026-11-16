@@ -473,6 +473,92 @@
    ]
   },
   {
+   "id": "universel",
+   "name": "Universel",
+   "c1": "#1A1A2E",
+   "c2": "#05050C",
+   "accent": "#9AD0FF",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "universel.tout_terrain",
+     "name": "Tout-terrain",
+     "bpm": 0,
+     "desc": "Pour les playlists mélangées : un peu de sub, rien d'exagéré",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 0.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "universel.tout_terrain_basses",
+     "name": "Tout-terrain + basses",
+     "bpm": 0,
+     "desc": "Plus de sub pour tout ce qui est électro et rap",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 3.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -0.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "universel.doux_longue_ecoute",
+     "name": "Doux longue écoute",
+     "bpm": 0,
+     "desc": "Aigus adoucis pour les longues sessions",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
    "id": "freeparty",
    "name": "Free Party & Tekno",
    "c1": "#1E1E10",

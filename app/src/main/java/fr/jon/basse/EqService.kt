@@ -28,6 +28,7 @@ class EqService : Service() {
         private const val NOTIF_ID = 17
         const val ACTION_STOP = "fr.jon.basse.STOP"
         const val ACTION_NEXT = "fr.jon.basse.NEXT"
+        const val ACTION_TOGGLE = "fr.jon.basse.TOGGLE"
         const val EXTRA_OPEN = "open_session"
         const val EXTRA_CLOSE = "close_session"
 
@@ -62,13 +63,20 @@ class EqService : Service() {
         }
         ContextCompat.registerReceiver(this, sessionReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
 
-        outputs = OutputWatcher(this) { EqState.setOutput(it) }
+        outputs = OutputWatcher(this) { EqState.setOutput(it, this) }
         outputs.start()
-        poller = ForegroundPoller(this, onTick = { EqState.setVolume(musicVolume()) }) { pkg -> EqState.onForegroundApp(this, pkg) }
+        poller = ForegroundPoller(this, onTick = {
+            EqState.setVolume(musicVolume())
+            EqState.tickSchedule(this)
+            Exposure.tick(this, 2f)
+            val st = EqState.settings.value
+            Analyzer.ensure(this, st.enabled && (st.autoContent || Analyzer.uiVisible))
+        }) { pkg -> EqState.onForegroundApp(this, pkg) }
         poller.start()
 
         scope.launch {
-            combine(EqState.settings, EqState.output, EqState.volume) { s, o, v -> Triple(s, o, v) }.collect { (s, o, v) ->
+            combine(EqState.settings, EqState.output, EqState.volume, EqState.testing) { s, o, v, t -> listOf(s, o, v, t) }.collect { l ->
+                val s = l[0] as EqSettings; val o = l[1] as OutputInfo; val v = l[2] as Float; val testing = l[3] as Boolean
                 if (!s.enabled) {
                     engine.setActive(false)
                     engine.releaseAll()
@@ -77,7 +85,9 @@ class EqService : Service() {
                     stopSelf()
                     return@collect
                 }
-                engine.setCurve(EqState.currentChain(s, o, v), s.keepVolume, s.balance, s.ceilingDb)
+                val chain = if (testing) EqState.testChain(s, o) else EqState.currentChain(s, o, v)
+                engine.setCurve(chain, if (testing) Curve.autoPreamp(chain) else EqState.preampDb(s, chain),
+                    if (testing) 0.0 else s.balance, s.ceilingDb, if (testing) 0 else s.punch)
                 if (lastGlobalWanted != s.globalMode) {
                     lastGlobalWanted = s.globalMode
                     if (s.globalMode) engine.attach(0) else engine.detach(0)
@@ -94,6 +104,7 @@ class EqService : Service() {
         when {
             intent?.action == ACTION_STOP -> EqState.update(this) { it.copy(enabled = false) }
             intent?.action == ACTION_NEXT -> EqState.nextFavorite(this)
+            intent?.action == ACTION_TOGGLE -> EqState.update(this) { it.copy(enabled = !it.enabled) }
             intent != null -> handleSessionIntent(intent)
         }
         return START_STICKY
@@ -176,6 +187,7 @@ class EqService : Service() {
         runCatching { unregisterReceiver(sessionReceiver) }
         if (::outputs.isInitialized) outputs.stop()
         if (::poller.isInitialized) poller.stop()
+        Analyzer.stop()
         engine.releaseAll()
         scope.cancel()
         EqState.setStatus(EngineStatus())

@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         resumeTick.intValue++
-        watcher = OutputWatcher(this) { EqState.setOutput(it) }.also { it.start() }
+        watcher = OutputWatcher(this) { EqState.setOutput(it, this) }.also { it.start() }
     }
 
     override fun onPause() {
@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
             val lastApp by EqState.lastApp.collectAsState()
             val tick = resumeTick.intValue
             val notifPerm = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+            val micPerm = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { resumeTick.intValue++ }
 
             val cb = UiCallbacks(
                 toggle = {
@@ -64,6 +65,7 @@ class MainActivity : ComponentActivity() {
                     EqState.select(this, if (video) s.lastVideoId else s.lastMusicId)
                 },
                 update = { f -> EqState.update(this, f) },
+                askMic = { micPerm.launch(Manifest.permission.RECORD_AUDIO) },
             )
             MaterialTheme(colorScheme = darkColorScheme()) {
                 BasseApp(settings, status, output, lastApp, tick, cb)

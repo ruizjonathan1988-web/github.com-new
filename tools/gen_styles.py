@@ -56,6 +56,12 @@ fam("dnb", "Drum & Bass / Jungle", "#0B3D2E", "#00140D", "#39FF88", "rings", "mu
     ]),
 ])
 
+fam("universel", "Universel", "#1A1A2E", "#05050C", "#9AD0FF", "waves", "music", [
+    S("Tout-terrain", 0, "ls50+2 pk2500+0.5 hs10k+0.5", "Pour les playlists mélangées : un peu de sub, rien d'exagéré"),
+    S("Tout-terrain + basses", 0, "ls50+3.5 pk200-0.5 hs10k+1", "Plus de sub pour tout ce qui est électro et rap"),
+    S("Doux longue écoute", 0, "ls60+1.5 hs8k-1.5", "Aigus adoucis pour les longues sessions"),
+])
+
 fam("freeparty", "Free Party & Tekno", "#1E1E10", "#050503", "#E4FF1A", "rings", "music", [
     S("Façade sound system", 180, "ls45+4.5 pk120+1q1.2 pk2500+1.5q1 hs12k-1.5", "Mur de sub, médiums projetés, aigus adoucis comme en plein air", [
         S("Devant les caissons", 180, "ls45+5.5 pk2500+1 hs10k-2", "Le sub avant tout"),

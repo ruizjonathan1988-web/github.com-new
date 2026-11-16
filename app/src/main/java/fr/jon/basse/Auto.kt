@@ -17,6 +17,8 @@ import android.os.Process
 enum class OutputKind { SPEAKER, FIIO, BLUETOOTH, WIRED, TV, UNKNOWN }
 
 data class OutputInfo(val kind: OutputKind = OutputKind.UNKNOWN, val name: String = "") {
+    /** Identifiant stable de l'appareil, pour les réglages par appareil. */
+    val key: String get() = if (name.isBlank()) kind.name else "${kind.name}:$name"
     val label: String
         get() = when (kind) {
             OutputKind.SPEAKER -> "Haut-parleur du téléphone"
