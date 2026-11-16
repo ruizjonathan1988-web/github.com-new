@@ -103,7 +103,7 @@ fun BasseApp(settings: EqSettings, status: EngineStatus, output: fr.jon.basse.Ou
 
     val chain = remember(settings, output) { EqState.currentChain(settings, output) }
     val points = remember(chain) { Curve.sample(chain) }
-    val preamp = remember(chain) { Curve.autoPreamp(chain) }
+    val preamp = remember(chain, settings.keepVolume) { Curve.autoPreamp(chain) * if (settings.keepVolume) 0.35 else 1.0 }
 
     Box(Modifier.fillMaxSize()) {
         AnimatedBackground(
@@ -157,6 +157,19 @@ private fun Browser(
         contentPadding = PaddingValues(vertical = 14.dp)) {
         if (header) item { Header(settings, activePreset, accent, cb) }
         item { ModeSwitch(videoMode, accent, cb.setMode) }
+        if (settings.favorites.isNotEmpty()) item {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 2.dp, vertical = 4.dp)) {
+                items(settings.favorites, key = { "fav-$it" }) { id ->
+                    val (f, p) = cat.find(id) ?: return@items
+                    val sel = settings.presetId == id
+                    Text("★ ${p.name}", color = if (sel) Color.Black else Color.White, fontWeight = FontWeight.SemiBold, fontSize = 13.sp,
+                        modifier = Modifier.tv(f.accent, RoundedCornerShape(50)) { cb.select(id) }
+                            .background(if (sel) f.accent else Color.Black.copy(alpha = 0.35f), RoundedCornerShape(50))
+                            .border(1.dp, f.accent.copy(alpha = 0.7f), RoundedCornerShape(50))
+                            .padding(horizontal = 14.dp, vertical = 8.dp))
+                }
+            }
+        }
         if (panel != null) item { panel(Modifier.fillMaxWidth()) }
         if (!videoMode) item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 2.dp, vertical = 6.dp)) {
@@ -229,7 +242,14 @@ private fun Header(settings: EqSettings, preset: Preset, accent: Color, cb: UiCa
             Text("BASSE", color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Black, letterSpacing = 8.sp)
             Text("FiiO FT1 · ${EqState.catalog.count} réglages", color = TextDim, fontSize = 12.sp)
             Spacer(Modifier.height(6.dp))
-            Text(preset.name, color = accent, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            val ctx = LocalContext.current
+            val fav = preset.id in settings.favorites
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(preset.name, color = accent, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.width(8.dp))
+                Text(if (fav) "★" else "☆", color = accent, fontSize = 22.sp,
+                    modifier = Modifier.tv(accent, RoundedCornerShape(50)) { EqState.toggleFavorite(ctx, preset.id) }.padding(horizontal = 6.dp))
+            }
             Text(
                 (if (preset.bpm > 0) "${preset.bpm} BPM · " else "") + preset.desc,
                 color = TextDim, fontSize = 13.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
@@ -334,6 +354,13 @@ private fun SidePanel(
             Stepper("Grave (80 Hz)", s.tweaks.bassDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(bassDb = v)) } }
             Stepper("Aigus (8 kHz)", s.tweaks.trebleDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(trebleDb = v)) } }
             Text("Avec des lunettes, le FT1 perd du grave : montez le Grave de 2 dB.", color = TextDim, fontSize = 11.sp)
+            ToggleRow("Loudness automatique", "À volume bas, remonte le sub (jusqu'à +6 dB) et les aigus pour garder l'impact", s.loudness, accent) {
+                cb.update { st -> st.copy(loudness = it) }
+            }
+            ToggleRow("Garder le volume", "Préampli réduit, le limiteur gère les pics (léger écrasement possible sur les gros drops)", s.keepVolume, accent) {
+                cb.update { st -> st.copy(keepVolume = it) }
+            }
+            BackupRow(accent)
             ActionChip("Tout remettre à zéro (tous les styles)", accent, onClick = {
                 cb.update { st -> st.copy(overrides = emptyMap(), tweaks = fr.jon.basse.UserTweaks()) }
             })
@@ -679,4 +706,31 @@ private fun AutoCard(
             }
         }
     }
+}
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun BackupRow(accent: Color) {
+    val ctx = LocalContext.current
+    var msg by remember { mutableStateOf<String?>(null) }
+    val save = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        if (uri != null) msg = runCatching {
+            ctx.contentResolver.openOutputStream(uri)!!.use { it.write(EqState.exportJson().toByteArray()) }
+            "Réglages sauvegardés."
+        }.getOrDefault("Échec de la sauvegarde.")
+    }
+    val load = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) msg = runCatching {
+            val txt = ctx.contentResolver.openInputStream(uri)!!.use { it.readBytes().toString(Charsets.UTF_8) }
+            if (EqState.importJson(ctx, txt)) "Réglages restaurés." else "Fichier non reconnu."
+        }.getOrDefault("Lecture impossible.")
+    }
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        ActionChip("Sauvegarder mes réglages", accent, onClick = { runCatching { save.launch("basse-reglages.json") } })
+        ActionChip("Restaurer", accent, onClick = { runCatching { load.launch(arrayOf("application/json", "*/*")) } })
+    }
+    msg?.let { Text(it, color = accent, fontSize = 12.sp) }
 }

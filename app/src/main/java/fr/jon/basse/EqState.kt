@@ -25,6 +25,11 @@ data class EqSettings(
     val ft1Auto: Boolean = true,
     /** Basse en pause sur le haut-parleur du téléphone. */
     val pauseOnSpeaker: Boolean = true,
+    /** Remonte sub et aigus quand le volume est bas. */
+    val loudness: Boolean = false,
+    /** Préampli réduit : on garde le niveau, le limiteur gère les pics. */
+    val keepVolume: Boolean = false,
+    val favorites: List<String> = emptyList(),
 )
 
 data class EngineStatus(
@@ -73,6 +78,9 @@ object EqState {
             }.getOrDefault(emptyMap()),
             ft1Auto = p.getBoolean("ft1Auto", true),
             pauseOnSpeaker = p.getBoolean("pauseSpeaker", true),
+            loudness = p.getBoolean("loudness", false),
+            keepVolume = p.getBoolean("keepVolume", false),
+            favorites = p.getString("favorites", "")!!.split(",").filter { catalog.find(it) != null },
         )
         ready = true
     }
@@ -94,6 +102,9 @@ object EqState {
             .putString("appRules", JSONObject(s.appRules as Map<*, *>).toString())
             .putBoolean("ft1Auto", s.ft1Auto)
             .putBoolean("pauseSpeaker", s.pauseOnSpeaker)
+            .putBoolean("loudness", s.loudness)
+            .putBoolean("keepVolume", s.keepVolume)
+            .putString("favorites", s.favorites.joinToString(","))
             .apply()
     }
 
@@ -145,10 +156,57 @@ object EqState {
     fun styleFilters(s: EqSettings, preset: Preset): List<Filter> = s.overrides[preset.id] ?: preset.filters
 
     /** Chaîne complète de filtres actuellement demandée. */
-    fun currentChain(s: EqSettings = settings.value, o: OutputInfo = output.value): List<Filter> {
+    fun currentChain(s: EqSettings = settings.value, o: OutputInfo = output.value, vol: Float = volume.value): List<Filter> {
         val preset = catalog.find(s.presetId)?.second ?: return emptyList()
-        return Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks.copy(ft1 = ft1Effective(s, o)))
+        val base = Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks.copy(ft1 = ft1Effective(s, o)))
+        val l = loudnessDb(s, vol)
+        return if (l <= 0.05) base else base + listOf(Filter("LS", 70.0, l, 0.7), Filter("HS", 10000.0, l * 0.5, 0.7))
     }
+
+    /** 0 dB au-dessus de 60 % du volume, jusqu'à +6 dB de grave au plus bas. */
+    fun loudnessDb(s: EqSettings, vol: Float): Double =
+        if (!s.loudness) 0.0 else (((0.6f - vol) / 0.6f).coerceIn(0f, 1f) * 6f).toDouble()
+
+    private val _volume = MutableStateFlow(1f)
+    val volume: StateFlow<Float> = _volume.asStateFlow()
+    fun setVolume(v: Float) { if (kotlin.math.abs(v - _volume.value) > 0.01f) _volume.value = v }
+
+    fun toggleFavorite(ctx: Context, id: String) = update(ctx) {
+        it.copy(favorites = if (id in it.favorites) it.favorites - id else it.favorites + id)
+    }
+
+    /** Passe au favori suivant (tuile / notification). */
+    fun nextFavorite(ctx: Context) {
+        val s = settings.value
+        if (s.favorites.isEmpty()) return
+        val i = s.favorites.indexOf(s.presetId)
+        select(ctx, s.favorites[(i + 1) % s.favorites.size])
+    }
+
+    // ---------- Sauvegarde ----------
+    fun exportJson(): String {
+        val s = settings.value
+        return JSONObject()
+            .put("app", "basse").put("version", 1)
+            .put("overrides", JSONObject(encode(s.overrides)))
+            .put("appRules", JSONObject(s.appRules as Map<*, *>))
+            .put("favorites", JSONArray(s.favorites))
+            .put("bass", s.tweaks.bassDb).put("treble", s.tweaks.trebleDb).put("ft1", s.tweaks.ft1)
+            .toString(1)
+    }
+
+    fun importJson(ctx: Context, text: String): Boolean = runCatching {
+        val o = JSONObject(text)
+        require(o.optString("app") == "basse")
+        val ov = decode(o.getJSONObject("overrides").toString())
+        val rules = o.getJSONObject("appRules").let { r -> r.keys().asSequence().associateWith { r.getString(it) } }
+        val fav = o.getJSONArray("favorites").let { a -> (0 until a.length()).map { a.getString(it) } }.filter { catalog.find(it) != null }
+        update(ctx) {
+            it.copy(overrides = ov, appRules = rules, favorites = fav,
+                tweaks = it.tweaks.copy(bassDb = o.optDouble("bass", 0.0), trebleDb = o.optDouble("treble", 0.0), ft1 = o.optBoolean("ft1", true)))
+        }
+        true
+    }.getOrDefault(false)
 
     private fun encode(m: Map<String, List<Filter>>): String {
         val o = JSONObject()

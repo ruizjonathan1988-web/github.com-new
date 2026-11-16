@@ -27,6 +27,7 @@ class EqService : Service() {
         private const val CHANNEL = "basse_eq"
         private const val NOTIF_ID = 17
         const val ACTION_STOP = "fr.jon.basse.STOP"
+        const val ACTION_NEXT = "fr.jon.basse.NEXT"
         const val EXTRA_OPEN = "open_session"
         const val EXTRA_CLOSE = "close_session"
 
@@ -63,11 +64,11 @@ class EqService : Service() {
 
         outputs = OutputWatcher(this) { EqState.setOutput(it) }
         outputs.start()
-        poller = ForegroundPoller(this) { pkg -> EqState.onForegroundApp(this, pkg) }
+        poller = ForegroundPoller(this, onTick = { EqState.setVolume(musicVolume()) }) { pkg -> EqState.onForegroundApp(this, pkg) }
         poller.start()
 
         scope.launch {
-            combine(EqState.settings, EqState.output) { s, o -> s to o }.collect { (s, o) ->
+            combine(EqState.settings, EqState.output, EqState.volume) { s, o, v -> Triple(s, o, v) }.collect { (s, o, v) ->
                 if (!s.enabled) {
                     engine.setActive(false)
                     engine.releaseAll()
@@ -76,7 +77,7 @@ class EqService : Service() {
                     stopSelf()
                     return@collect
                 }
-                engine.setCurve(EqState.currentChain(s, o))
+                engine.setCurve(EqState.currentChain(s, o, v), s.keepVolume)
                 if (lastGlobalWanted != s.globalMode) {
                     lastGlobalWanted = s.globalMode
                     if (s.globalMode) engine.attach(0) else engine.detach(0)
@@ -92,6 +93,7 @@ class EqService : Service() {
         goForeground(EqState.settings.value)
         when {
             intent?.action == ACTION_STOP -> EqState.update(this) { it.copy(enabled = false) }
+            intent?.action == ACTION_NEXT -> EqState.nextFavorite(this)
             intent != null -> handleSessionIntent(intent)
         }
         return START_STICKY
@@ -121,6 +123,12 @@ class EqService : Service() {
         )
     }
 
+    private fun musicVolume(): Float {
+        val am = getSystemService(android.media.AudioManager::class.java)
+        val max = am.getStreamMaxVolume(android.media.AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        return am.getStreamVolume(android.media.AudioManager.STREAM_MUSIC) / max.toFloat()
+    }
+
     private fun createChannel() {
         run {
             val ch = NotificationChannel(CHANNEL, "Égaliseur actif", NotificationManager.IMPORTANCE_LOW)
@@ -137,7 +145,12 @@ class EqService : Service() {
         val stop = PendingIntent.getService(
             this, 1, Intent(this, EqService::class.java).setAction(ACTION_STOP), PendingIntent.FLAG_IMMUTABLE,
         )
-        return Notification.Builder(this, CHANNEL).setSmallIcon(R.drawable.ic_notif)
+        val next = PendingIntent.getService(
+            this, 2, Intent(this, EqService::class.java).setAction(ACTION_NEXT), PendingIntent.FLAG_IMMUTABLE,
+        )
+        val b = Notification.Builder(this, CHANNEL)
+        if (s.favorites.size > 1) b.addAction(Notification.Action.Builder(Icon.createWithResource(this, R.drawable.ic_notif), "Favori suivant", next).build())
+        return b.setSmallIcon(R.drawable.ic_notif)
             .setContentTitle("Basse · $name")
             .setContentText("Égaliseur FT1 actif")
             .setContentIntent(open)

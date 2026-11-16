@@ -28,14 +28,14 @@ class EqEngine {
         for (i in 0 until BANDS) bandCutoffs[i] = (20.0 * Math.pow(1000.0, (i + 1).toDouble() / BANDS)).toFloat()
     }
 
-    fun setCurve(chain: List<Filter>) {
+    fun setCurve(chain: List<Filter>, keepVolume: Boolean = false) {
         val k = chain.map { Curve.coeffs(it) }
         for (i in 0 until BANDS) {
             val lo = if (i == 0) 10.0 else bandCutoffs[i - 1].toDouble()
             val center = sqrt(lo * bandCutoffs[i])
             bandGains[i] = Curve.responseDb(k, center).toFloat()
         }
-        preamp = Curve.autoPreamp(chain).toFloat()
+        preamp = (Curve.autoPreamp(chain) * if (keepVolume) 0.35 else 1.0).toFloat()
         effects.values.forEach { push(it) }
     }
 

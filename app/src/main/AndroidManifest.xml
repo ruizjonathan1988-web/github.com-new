@@ -53,6 +53,17 @@
                 android:value="Égaliseur audio global qui doit rester actif pendant la lecture d'autres applis" />
         </service>
 
+        <service
+            android:name=".BasseTile"
+            android:exported="true"
+            android:icon="@drawable/ic_notif"
+            android:label="Basse"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver android:name=".SystemReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.media.action.OPEN_AUDIO_EFFECT_CONTROL_SESSION" />

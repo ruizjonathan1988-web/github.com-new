@@ -121,12 +121,13 @@ object AppRules {
 }
 
 /** Lit toutes les 2 s la dernière appli passée au premier plan. */
-class ForegroundPoller(private val ctx: Context, private val onApp: (String) -> Unit) {
+class ForegroundPoller(private val ctx: Context, private val onTick: () -> Unit = {}, private val onApp: (String) -> Unit) {
     private val usm = ctx.getSystemService(UsageStatsManager::class.java)
     private val handler = Handler(Looper.getMainLooper())
     private var last: String? = null
     private val tick = object : Runnable {
         override fun run() {
+            onTick()
             poll()
             handler.postDelayed(this, 2000)
         }
