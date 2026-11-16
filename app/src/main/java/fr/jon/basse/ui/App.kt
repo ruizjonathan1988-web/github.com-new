@@ -478,6 +478,7 @@ private fun typeName(t: String) = when (t) {
 }
 private fun nextType(t: String) = when (t) { "PK" -> "LS"; "LS" -> "HS"; "HS" -> "HP"; "HP" -> "LP"; "LP" -> "NO"; else -> "PK" }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun StyleEditor(s: EqSettings, preset: Preset, accent: Color, cb: UiCallbacks) {
     var open by rememberSaveable { mutableStateOf(false) }
