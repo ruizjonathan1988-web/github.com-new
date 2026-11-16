@@ -182,6 +182,7 @@ private fun Browser(
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     row.forEach { st ->
                         StyleCard(st, isActive = parent?.id == st.id, isExact = settings.presetId == st.id,
+                            modified = settings.overrides.containsKey(st.id) || st.subs.any { settings.overrides.containsKey(it.id) },
                             accent = accent, modifier = Modifier.weight(1f)) { cb.select(st.id) }
                     }
                     repeat(cols - row.size) { Spacer(Modifier.weight(1f)) }
@@ -204,7 +205,8 @@ private fun Browser(
                                     .background(if (sel) accent else Glass, RoundedCornerShape(14.dp))
                                     .padding(horizontal = 12.dp, vertical = 8.dp),
                             ) {
-                                Text(sub.name, color = if (sel) Color.Black else Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                                Text(sub.name + if (settings.overrides.containsKey(sub.id)) "  ✎" else "",
+                                    color = if (sel) Color.Black else Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                                 Text(sub.desc, color = if (sel) Color.Black.copy(alpha = 0.7f) else TextDim, fontSize = 11.sp,
                                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.width(170.dp))
                             }
@@ -274,7 +276,7 @@ private fun ModeSwitch(video: Boolean, accent: Color, onMode: (Boolean) -> Unit)
 }
 
 @Composable
-private fun StyleCard(st: Preset, isActive: Boolean, isExact: Boolean, accent: Color, modifier: Modifier, onClick: () -> Unit) {
+private fun StyleCard(st: Preset, isActive: Boolean, isExact: Boolean, modified: Boolean, accent: Color, modifier: Modifier, onClick: () -> Unit) {
     val bg = if (isActive) Brush.linearGradient(listOf(accent.copy(alpha = 0.85f), accent.copy(alpha = 0.45f)))
     else Brush.linearGradient(listOf(Glass, Color.White.copy(alpha = 0.03f)))
     Column(
@@ -296,6 +298,7 @@ private fun StyleCard(st: Preset, isActive: Boolean, isExact: Boolean, accent: C
                 overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
             )
             if (st.subs.isNotEmpty()) Text("+${st.subs.size}", color = if (isActive) Color.Black else accent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+            if (modified) Text("  ✎", color = if (isActive) Color.Black else accent, fontSize = 12.sp)
             if (isExact) Text("  ●", color = Color.Black, fontSize = 11.sp)
         }
     }
@@ -318,6 +321,7 @@ private fun SidePanel(
             Spacer(Modifier.height(6.dp))
             StatusLine(s, status, accent)
         }
+        StyleEditor(s, preset, accent, cb)
         Card {
             ToggleRow("Correction FiiO FT1", "Corrige 250 Hz, le creux 3-5 kHz et le pic 7,5 kHz", s.tweaks.ft1, accent) {
                 cb.update { st -> st.copy(tweaks = st.tweaks.copy(ft1 = it)) }
@@ -325,6 +329,9 @@ private fun SidePanel(
             Stepper("Grave (80 Hz)", s.tweaks.bassDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(bassDb = v)) } }
             Stepper("Aigus (8 kHz)", s.tweaks.trebleDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(trebleDb = v)) } }
             Text("Avec des lunettes, le FT1 perd du grave : montez le Grave de 2 dB.", color = TextDim, fontSize = 11.sp)
+            ActionChip("Tout remettre à zéro (tous les styles)", accent) {
+                cb.update { st -> st.copy(overrides = emptyMap(), tweaks = fr.jon.basse.UserTweaks()) }
+            }
         }
         Card {
             ToggleRow("Mode global", "Égalise tout le son du système (session 0). Sinon, seulement les lecteurs compatibles.", s.globalMode, accent) {
@@ -409,4 +416,103 @@ private fun StepBtn(t: String, accent: Color, onClick: () -> Unit) {
         Modifier.size(40.dp).tv(accent, RoundedCornerShape(50), onClick).background(Glass, CircleShape),
         contentAlignment = Alignment.Center,
     ) { Text(t, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold) }
+}
+
+
+// ---------- Éditeur du style ----------
+
+private fun roundHz(f: Double): Double = when {
+    f < 100 -> Math.round(f).toDouble()
+    f < 1000 -> (Math.round(f / 5) * 5).toDouble()
+    else -> (Math.round(f / 50) * 50).toDouble()
+}
+
+private fun typeName(t: String) = when (t) { "LS" -> "Grave (shelf)"; "HS" -> "Aigu (shelf)"; else -> "Bosse (peak)" }
+private fun nextType(t: String) = when (t) { "PK" -> "LS"; "LS" -> "HS"; else -> "PK" }
+
+@Composable
+private fun StyleEditor(s: EqSettings, preset: Preset, accent: Color, cb: UiCallbacks) {
+    var open by rememberSaveable { mutableStateOf(false) }
+    val list = EqState.styleFilters(s, preset)
+    val modified = s.overrides.containsKey(preset.id)
+    fun save(newList: List<fr.jon.basse.Filter>) = cb.update { st -> st.copy(overrides = st.overrides + (preset.id to newList)) }
+    fun edit(i: Int, f: (fr.jon.basse.Filter) -> fr.jon.basse.Filter) = save(list.mapIndexed { j, x -> if (j == i) f(x) else x })
+
+    Card {
+        Row(Modifier.fillMaxWidth().tv(accent) { open = !open }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text("Régler « ${preset.name} »" + if (modified) "  ✎" else "", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(if (modified) "Modifié par vous" else "Réglage d'origine", color = TextDim, fontSize = 11.sp)
+            }
+            Text(if (open) "▲" else "▼", color = accent)
+        }
+        AnimatedVisibility(open, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 6.dp)) {
+                if (list.isEmpty()) Text("Aucun filtre : le style est à plat (seule la correction FT1 s'applique si elle est active).",
+                    color = TextDim, fontSize = 12.sp)
+                list.forEachIndexed { i, f ->
+                    Column(
+                        Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Glass).padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("${i + 1}.", color = accent, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.width(8.dp))
+                            Text(typeName(f.type), color = Color.White, fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f).tv(accent, RoundedCornerShape(8.dp)) { edit(i) { it.copy(type = nextType(it.type)) } }
+                                    .padding(4.dp))
+                            StepBtn("✕", accent) { save(list.filterIndexed { j, _ -> j != i }) }
+                        }
+                        ValueRow("Fréquence", Curve.fmtHz(f.f), accent,
+                            minus = { edit(i) { it.copy(f = roundHz((it.f / 1.122462).coerceAtLeast(20.0))) } },
+                            plus = { edit(i) { it.copy(f = roundHz((it.f * 1.122462).coerceAtMost(20000.0))) } })
+                        ValueRow("Gain", "%+.1f dB".format(f.g), accent,
+                            minus = { edit(i) { it.copy(g = (it.g - 0.5).coerceAtLeast(-12.0)) } },
+                            plus = { edit(i) { it.copy(g = (it.g + 0.5).coerceAtMost(12.0)) } })
+                        ValueRow("Largeur (Q)", "%.1f".format(f.q), accent,
+                            minus = { edit(i) { it.copy(q = ((it.q - if (it.q > 2) 0.5 else 0.1) * 10).let { v -> Math.round(v) / 10.0 }.coerceAtLeast(0.3)) } },
+                            plus = { edit(i) { it.copy(q = ((it.q + if (it.q >= 2) 0.5 else 0.1) * 10).let { v -> Math.round(v) / 10.0 }.coerceAtMost(8.0)) } })
+                    }
+                }
+                FlowRowActions(accent, canAdd = list.size < 8, modified = modified,
+                    onAdd = { save(list + fr.jon.basse.Filter("PK", 1000.0, 0.0, 1.0)) },
+                    onFlat = { save(emptyList()) },
+                    onReset = { cb.update { st -> st.copy(overrides = st.overrides - preset.id) } })
+                Text("Fréquence : 1/6 d'octave par appui. Q petit = bosse large, Q grand = correction étroite.",
+                    color = TextDim, fontSize = 11.sp)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FlowRowActions(accent: Color, canAdd: Boolean, modified: Boolean, onAdd: () -> Unit, onFlat: () -> Unit, onReset: () -> Unit) {
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (canAdd) ActionChip("+ Ajouter un filtre", accent, onAdd)
+        ActionChip("Mettre à plat", accent, onFlat)
+        if (modified) ActionChip("↺ Revenir à l'origine", accent, onReset, filled = true)
+    }
+}
+
+@Composable
+private fun ActionChip(label: String, accent: Color, onClick: () -> Unit, filled: Boolean = false) {
+    Text(
+        label, color = if (filled) Color.Black else Color.White, fontWeight = FontWeight.SemiBold, fontSize = 13.sp,
+        modifier = Modifier.tv(accent, RoundedCornerShape(50), onClick)
+            .background(if (filled) accent else Glass, RoundedCornerShape(50))
+            .border(1.dp, accent.copy(alpha = 0.5f), RoundedCornerShape(50))
+            .padding(horizontal = 14.dp, vertical = 9.dp),
+    )
+}
+
+@Composable
+private fun ValueRow(label: String, value: String, accent: Color, minus: () -> Unit, plus: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+        Text(label, color = TextDim, fontSize = 13.sp, modifier = Modifier.weight(1f))
+        StepBtn("−", accent, minus)
+        Text(value, color = accent, fontWeight = FontWeight.Bold, fontSize = 14.sp,
+            modifier = Modifier.width(92.dp).padding(horizontal = 8.dp))
+        StepBtn("+", accent, plus)
+    }
 }

@@ -473,6 +473,249 @@
    ]
   },
   {
+   "id": "freeparty",
+   "name": "Free Party & Tekno",
+   "c1": "#1E1E10",
+   "c2": "#050503",
+   "accent": "#E4FF1A",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "freeparty.facade_sound_system",
+     "name": "Façade sound system",
+     "bpm": 180,
+     "desc": "Mur de sub, médiums projetés, aigus adoucis comme en plein air",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 4.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.0,
+       "q": 1.2
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": -1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "freeparty.facade_sound_system.devant_les_caissons",
+       "name": "Devant les caissons",
+       "bpm": 180,
+       "desc": "Le sub avant tout",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 45.0,
+         "g": 5.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": -2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "freeparty.facade_sound_system.milieu_du_dancefloor",
+       "name": "Milieu du dancefloor",
+       "bpm": 180,
+       "desc": "Équilibre de la piste",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 4.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": -1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "freeparty.facade_sound_system.au_loin_dans_le_champ",
+       "name": "Au loin, dans le champ",
+       "bpm": 180,
+       "desc": "Le son qui porte de loin",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 800.0,
+         "g": 1.5,
+         "q": 0.8
+        },
+        {
+         "type": "HS",
+         "f": 6000.0,
+         "g": -3.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "freeparty.tribe",
+     "name": "Tribe",
+     "bpm": 175,
+     "desc": "Kick roulant et percus tribales",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": -1.0,
+       "q": 1.5
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "freeparty.hardtek",
+     "name": "Hardtek",
+     "bpm": 180,
+     "desc": "Kick saturé, rythmiques dures",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 300.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "freeparty.acid_tekno_mental",
+     "name": "Acid Tekno / Mental",
+     "bpm": 185,
+     "desc": "303 hurlante sans fatigue",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1200.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": -1.0,
+       "q": 1.5
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "freeparty.raggatek",
+     "name": "Raggatek",
+     "bpm": 175,
+     "desc": "Sub, voix ragga et kick tekno",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 4.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 2800.0,
+       "g": -1.0,
+       "q": 1.5
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
    "id": "techno",
    "name": "Techno",
    "c1": "#2A0508",

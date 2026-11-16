@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.json.JSONArray
+import org.json.JSONObject
 
 data class EqSettings(
     val enabled: Boolean = false,
@@ -13,6 +15,8 @@ data class EqSettings(
     val lastVideoId: String = "video.cinema",
     val tweaks: UserTweaks = UserTweaks(),
     val globalMode: Boolean = true,
+    /** Réglages modifiés par Jon, par identifiant de style. Absent = réglage d'origine. */
+    val overrides: Map<String, List<Filter>> = emptyMap(),
 )
 
 data class EngineStatus(
@@ -53,6 +57,7 @@ object EqState {
                 trebleDb = p.getFloat("treble", 0f).toDouble(),
             ),
             globalMode = p.getBoolean("global", true),
+            overrides = decode(p.getString("overrides", null)),
         )
         ready = true
     }
@@ -69,6 +74,7 @@ object EqState {
             .putFloat("bass", s.tweaks.bassDb.toFloat())
             .putFloat("treble", s.tweaks.trebleDb.toFloat())
             .putBoolean("global", s.globalMode)
+            .putString("overrides", encode(s.overrides))
             .apply()
     }
 
@@ -81,9 +87,34 @@ object EqState {
 
     fun setStatus(s: EngineStatus) { _status.value = s }
 
+    /** Filtres du style : version modifiée si elle existe, sinon l'origine. */
+    fun styleFilters(s: EqSettings, preset: Preset): List<Filter> = s.overrides[preset.id] ?: preset.filters
+
     /** Chaîne complète de filtres actuellement demandée. */
     fun currentChain(s: EqSettings = settings.value): List<Filter> {
         val preset = catalog.find(s.presetId)?.second ?: return emptyList()
-        return Curve.chain(catalog, preset, s.tweaks)
+        return Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks)
+    }
+
+    private fun encode(m: Map<String, List<Filter>>): String {
+        val o = JSONObject()
+        for ((k, list) in m) o.put(k, JSONArray().apply {
+            list.forEach { put(JSONObject().put("type", it.type).put("f", it.f).put("g", it.g).put("q", it.q)) }
+        })
+        return o.toString()
+    }
+
+    private fun decode(str: String?): Map<String, List<Filter>> {
+        if (str.isNullOrBlank()) return emptyMap()
+        return runCatching {
+            val o = JSONObject(str)
+            o.keys().asSequence().associateWith { k ->
+                val a = o.getJSONArray(k)
+                (0 until a.length()).map { i ->
+                    val f = a.getJSONObject(i)
+                    Filter(f.getString("type"), f.getDouble("f"), f.getDouble("g"), f.getDouble("q"))
+                }
+            }
+        }.getOrDefault(emptyMap())
     }
 }

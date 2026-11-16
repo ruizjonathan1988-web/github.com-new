@@ -56,6 +56,18 @@ fam("dnb", "Drum & Bass / Jungle", "#0B3D2E", "#00140D", "#39FF88", "rings", "mu
     ]),
 ])
 
+fam("freeparty", "Free Party & Tekno", "#1E1E10", "#050503", "#E4FF1A", "rings", "music", [
+    S("Façade sound system", 180, "ls45+4.5 pk120+1q1.2 pk2500+1.5q1 hs12k-1.5", "Mur de sub, médiums projetés, aigus adoucis comme en plein air", [
+        S("Devant les caissons", 180, "ls45+5.5 pk2500+1 hs10k-2", "Le sub avant tout"),
+        S("Milieu du dancefloor", 180, "ls50+4 pk2500+1.5 hs12k-1", "Équilibre de la piste"),
+        S("Au loin, dans le champ", 180, "ls60+3 pk800+1.5q0.8 hs6k-3", "Le son qui porte de loin"),
+    ]),
+    S("Tribe", 175, "pk55+3.5 pk1500+1 pk3000-1q1.5 hs10k+1", "Kick roulant et percus tribales"),
+    S("Hardtek", 180, "pk60+3.5 pk300-1 pk2500+1 hs10k+1", "Kick saturé, rythmiques dures"),
+    S("Acid Tekno / Mental", 185, "pk60+3 pk1200+1.5 pk3000-1q1.5", "303 hurlante sans fatigue"),
+    S("Raggatek", 175, "ls50+4 pk1000+1q0.8 pk2800-1q1.5", "Sub, voix ragga et kick tekno"),
+])
+
 fam("techno", "Techno", "#2A0508", "#050102", "#FF2D3D", "rings", "music", [
     S("Hard Techno", 150, "pk60+3.5 pk100+1.5q1.4 pk2800-1.5q1.5 hs9k+1", "Kick et rumble, moins de fatigue sur les kicks saturés", [
         S("Industrielle", 145, "pk55+3.5 pk120+1q1.2 pk3000-2.5q1.2", "Textures dures, médiums calmés"),

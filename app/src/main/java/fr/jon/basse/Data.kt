@@ -102,9 +102,9 @@ data class UserTweaks(val ft1: Boolean = true, val bassDb: Double = 0.0, val tre
 object Curve {
     const val FS = 48000.0
 
-    fun chain(catalog: Catalog, preset: Preset, t: UserTweaks): List<Filter> = buildList {
-        if (t.ft1) addAll(catalog.base)
-        addAll(preset.filters)
+    fun chain(base: List<Filter>, style: List<Filter>, t: UserTweaks): List<Filter> = buildList {
+        if (t.ft1) addAll(base)
+        addAll(style)
         if (t.bassDb != 0.0) add(Filter("LS", 80.0, t.bassDb, 0.7))
         if (t.trebleDb != 0.0) add(Filter("HS", 8000.0, t.trebleDb, 0.7))
     }
