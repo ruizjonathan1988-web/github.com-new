@@ -329,9 +329,9 @@ private fun SidePanel(
             Stepper("Grave (80 Hz)", s.tweaks.bassDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(bassDb = v)) } }
             Stepper("Aigus (8 kHz)", s.tweaks.trebleDb, accent) { v -> cb.update { st -> st.copy(tweaks = st.tweaks.copy(trebleDb = v)) } }
             Text("Avec des lunettes, le FT1 perd du grave : montez le Grave de 2 dB.", color = TextDim, fontSize = 11.sp)
-            ActionChip("Tout remettre à zéro (tous les styles)", accent) {
+            ActionChip("Tout remettre à zéro (tous les styles)", accent, onClick = {
                 cb.update { st -> st.copy(overrides = emptyMap(), tweaks = fr.jon.basse.UserTweaks()) }
-            }
+            })
         }
         Card {
             ToggleRow("Mode global", "Égalise tout le son du système (session 0). Sinon, seulement les lecteurs compatibles.", s.globalMode, accent) {
