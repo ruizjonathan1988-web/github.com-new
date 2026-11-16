@@ -88,7 +88,7 @@ data class UiCallbacks(
 )
 
 @Composable
-fun BasseApp(settings: EqSettings, status: EngineStatus, cb: UiCallbacks) {
+fun BasseApp(settings: EqSettings, status: EngineStatus, output: fr.jon.basse.OutputInfo, lastApp: String?, tick: Int, cb: UiCallbacks) {
     val cat = EqState.catalog
     val (activeFam, activePreset) = cat.find(settings.presetId) ?: (cat.families.first() to cat.families.first().styles.first())
     var browseFamId by rememberSaveable { mutableStateOf(activeFam.id) }
@@ -101,7 +101,7 @@ fun BasseApp(settings: EqSettings, status: EngineStatus, cb: UiCallbacks) {
     val c2 by animateColorAsState(browseFam.c2, tween(900), label = "c2")
     val accent by animateColorAsState(browseFam.accent, tween(900), label = "acc")
 
-    val chain = remember(settings) { EqState.currentChain(settings) }
+    val chain = remember(settings, output) { EqState.currentChain(settings, output) }
     val points = remember(chain) { Curve.sample(chain) }
     val preamp = remember(chain) { Curve.autoPreamp(chain) }
 
@@ -120,7 +120,9 @@ fun BasseApp(settings: EqSettings, status: EngineStatus, cb: UiCallbacks) {
                 else -> 2
             }
             val panel: @Composable (Modifier) -> Unit = { m ->
-                SidePanel(settings, status, activeFam, activePreset, points, preamp, chain, accent, cb, m)
+                SidePanel(settings, status, activeFam, activePreset, points, preamp, chain, accent, cb, m) {
+                    AutoCard(settings, output, lastApp, activePreset, accent, tick, cb)
+                }
             }
             if (wide) {
                 Row(Modifier.fillMaxSize().padding(20.dp), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -309,6 +311,7 @@ private fun StyleCard(st: Preset, isActive: Boolean, isExact: Boolean, modified:
 private fun SidePanel(
     s: EqSettings, status: EngineStatus, fam: Family, preset: Preset, points: FloatArray, preamp: Double,
     chain: List<fr.jon.basse.Filter>, accent: Color, cb: UiCallbacks, modifier: Modifier,
+    auto: @Composable () -> Unit,
 ) {
     var showPeq by rememberSaveable { mutableStateOf(false) }
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -323,6 +326,7 @@ private fun SidePanel(
             StatusLine(s, status, accent)
         }
         StyleEditor(s, preset, accent, cb)
+        auto()
         Card {
             ToggleRow("Correction FiiO FT1", "Corrige 250 Hz, le creux 3-5 kHz et le pic 7,5 kHz", s.tweaks.ft1, accent) {
                 cb.update { st -> st.copy(tweaks = st.tweaks.copy(ft1 = it)) }
@@ -365,6 +369,7 @@ private fun SidePanel(
 private fun StatusLine(s: EqSettings, st: EngineStatus, accent: Color) {
     val (dot, txt) = when {
         !s.enabled -> Color.Gray to "Égaliseur coupé"
+        EqState.pausedBySpeaker(s, EqState.output.value) -> Color(0xFFFFB020) to "En pause : son sur le haut-parleur"
         s.globalMode && st.globalOk == true -> accent to "Actif sur tout le son" + if (st.sessions > 0) " · ${st.sessions} lecteur(s)" else ""
         s.globalMode && st.globalOk == false -> Color(0xFFFFB020) to
             "Mode global refusé par l'appareil. Égalisés : lecteurs compatibles (${st.sessions})"
@@ -592,6 +597,85 @@ private fun PrepareCard(accent: Color) {
                 missing?.let { Text(it, color = Color(0xFFFFB020), fontSize = 12.sp) }
                 Text("Touchez le rond pour cocher un réglage fait. Android ne permet pas à une appli de les changer à votre place.",
                     color = TextDim, fontSize = 11.sp)
+            }
+        }
+    }
+}
+
+
+// ---------- Automatique : sortie audio et appli ----------
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun AutoCard(
+    s: EqSettings, output: fr.jon.basse.OutputInfo, lastApp: String?, preset: Preset, accent: Color, tick: Int, cb: UiCallbacks,
+) {
+    val ctx = LocalContext.current
+    var open by rememberSaveable { mutableStateOf(true) }
+    val access = remember(tick, s.autoApp) { fr.jon.basse.AppRules.hasUsageAccess(ctx) }
+    val ft1On = EqState.ft1Effective(s, output)
+    fun ruleLabel(r: String?) = when (r) {
+        null -> "aucune règle"
+        fr.jon.basse.AppRules.MUSIC -> "Musique (dernier style)"
+        fr.jon.basse.AppRules.VIDEO -> "Vidéo (dernier réglage)"
+        fr.jon.basse.AppRules.NONE -> "ne rien changer"
+        else -> EqState.catalog.find(r)?.second?.name ?: r
+    }
+    Card {
+        Row(Modifier.fillMaxWidth().tv(accent) { open = !open }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text("Automatique", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("Sortie : ${output.label}" + if (s.tweaks.ft1) (if (ft1On) " · correction FT1 active" else " · correction FT1 en pause") else "",
+                    color = TextDim, fontSize = 11.sp)
+            }
+            Text(if (open) "▲" else "▼", color = accent)
+        }
+        AnimatedVisibility(open, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
+                ToggleRow("Correction FT1 selon le casque", "Active seulement avec le FiiO (BTR) ou un casque filaire", s.ft1Auto, accent) {
+                    cb.update { st -> st.copy(ft1Auto = it) }
+                }
+                ToggleRow("Pause sur le haut-parleur", "Basse s'efface quand le son sort du téléphone", s.pauseOnSpeaker, accent) {
+                    cb.update { st -> st.copy(pauseOnSpeaker = it) }
+                }
+                ToggleRow("Bascule selon l'appli", "Spotify → musique, YouTube/VJOD → vidéo, émulateurs → jeux", s.autoApp, accent) {
+                    cb.update { st -> st.copy(autoApp = it) }
+                }
+                if (s.autoApp && !access) {
+                    Text("Il faut autoriser Basse dans « Accès aux données d'utilisation ».", color = Color(0xFFFFB020), fontSize = 12.sp)
+                    ActionChip("Autoriser l'accès", accent, onClick = {
+                        runCatching { ctx.startActivity(fr.jon.basse.AppRules.usageSettingsIntent().addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)) }
+                    }, filled = true)
+                }
+                if (s.autoApp && access && !s.enabled) Text("Allumez Basse (ON) pour que la bascule fonctionne.", color = TextDim, fontSize = 12.sp)
+                if (lastApp != null) {
+                    val name = remember(lastApp) { fr.jon.basse.AppRules.label(ctx, lastApp) }
+                    val current = s.appRules[lastApp] ?: fr.jon.basse.AppRules.builtIn[lastApp]
+                    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Glass).padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Dernière appli : $name", color = Color.White, fontWeight = FontWeight.SemiBold)
+                        Text("Règle : ${ruleLabel(current)}", color = TextDim, fontSize = 12.sp)
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            fun set(r: String) = cb.update { st -> st.copy(appRules = st.appRules + (lastApp to r)) }
+                            ActionChip("→ ${preset.name}", accent, onClick = { set(preset.id) }, filled = true)
+                            ActionChip("→ Musique", accent, onClick = { set(fr.jon.basse.AppRules.MUSIC) })
+                            ActionChip("→ Vidéo", accent, onClick = { set(fr.jon.basse.AppRules.VIDEO) })
+                            ActionChip("Ne rien changer", accent, onClick = { set(fr.jon.basse.AppRules.NONE) })
+                        }
+                    }
+                } else if (s.autoApp && access) {
+                    Text("Ouvrez une appli (VJOD, un émulateur…) puis revenez ici pour lui choisir un réglage.", color = TextDim, fontSize = 12.sp)
+                }
+                if (s.appRules.isNotEmpty()) {
+                    Text("Vos règles", color = TextDim, fontSize = 12.sp)
+                    s.appRules.forEach { (pkg, r) ->
+                        val name = remember(pkg) { fr.jon.basse.AppRules.label(ctx, pkg) }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("$name → ${ruleLabel(r)}", color = Color.White, fontSize = 13.sp, modifier = Modifier.weight(1f))
+                            StepBtn("✕", accent) { cb.update { st -> st.copy(appRules = st.appRules - pkg) } }
+                        }
+                    }
+                }
             }
         }
     }

@@ -17,6 +17,14 @@ data class EqSettings(
     val globalMode: Boolean = true,
     /** Réglages modifiés par Jon, par identifiant de style. Absent = réglage d'origine. */
     val overrides: Map<String, List<Filter>> = emptyMap(),
+    /** Change de réglage selon l'appli au premier plan. */
+    val autoApp: Boolean = false,
+    /** Règles perso : paquet -> "music", "video" ou identifiant de style. */
+    val appRules: Map<String, String> = emptyMap(),
+    /** Correction FT1 seulement quand le FiiO (ou un casque filaire) est branché. */
+    val ft1Auto: Boolean = true,
+    /** Basse en pause sur le haut-parleur du téléphone. */
+    val pauseOnSpeaker: Boolean = true,
 )
 
 data class EngineStatus(
@@ -58,6 +66,13 @@ object EqState {
             ),
             globalMode = p.getBoolean("global", true),
             overrides = decode(p.getString("overrides", null)),
+            autoApp = p.getBoolean("autoApp", false),
+            appRules = runCatching {
+                val o = JSONObject(p.getString("appRules", "{}")!!)
+                o.keys().asSequence().associateWith { o.getString(it) }
+            }.getOrDefault(emptyMap()),
+            ft1Auto = p.getBoolean("ft1Auto", true),
+            pauseOnSpeaker = p.getBoolean("pauseSpeaker", true),
         )
         ready = true
     }
@@ -75,6 +90,10 @@ object EqState {
             .putFloat("treble", s.tweaks.trebleDb.toFloat())
             .putBoolean("global", s.globalMode)
             .putString("overrides", encode(s.overrides))
+            .putBoolean("autoApp", s.autoApp)
+            .putString("appRules", JSONObject(s.appRules as Map<*, *>).toString())
+            .putBoolean("ft1Auto", s.ft1Auto)
+            .putBoolean("pauseSpeaker", s.pauseOnSpeaker)
             .apply()
     }
 
@@ -87,13 +106,48 @@ object EqState {
 
     fun setStatus(s: EngineStatus) { _status.value = s }
 
+    private val _output = MutableStateFlow(OutputInfo())
+    val output: StateFlow<OutputInfo> = _output.asStateFlow()
+    fun setOutput(o: OutputInfo) { _output.value = o }
+
+    /** Dernière appli détectée au premier plan (hors Basse et lanceur). */
+    private val _lastApp = MutableStateFlow<String?>(null)
+    val lastApp: StateFlow<String?> = _lastApp.asStateFlow()
+
+    /** Appelé par le service quand une appli passe au premier plan. */
+    fun onForegroundApp(ctx: Context, pkg: String) {
+        if (AppRules.ignored(ctx, pkg)) return
+        _lastApp.value = pkg
+        val s = settings.value
+        if (!s.autoApp) return
+        val rule = s.appRules[pkg] ?: AppRules.builtIn[pkg] ?: return
+        if (rule == AppRules.NONE) return
+        val target = when (rule) {
+            AppRules.MUSIC -> s.lastMusicId
+            AppRules.VIDEO -> s.lastVideoId
+            else -> rule
+        }
+        if (catalog.find(target) == null || target == s.presetId) return
+        // on ne touche pas aux "derniers" choisis : la bascule ne doit pas écraser vos préférences
+        update(ctx) { it.copy(presetId = target) }
+    }
+
+    /** La correction FT1 s'applique-t-elle avec cette sortie ? */
+    fun ft1Effective(s: EqSettings, o: OutputInfo): Boolean = when {
+        !s.tweaks.ft1 -> false
+        !s.ft1Auto -> true
+        else -> o.kind == OutputKind.FIIO || o.kind == OutputKind.WIRED || o.kind == OutputKind.UNKNOWN
+    }
+
+    fun pausedBySpeaker(s: EqSettings, o: OutputInfo) = s.pauseOnSpeaker && o.kind == OutputKind.SPEAKER
+
     /** Filtres du style : version modifiée si elle existe, sinon l'origine. */
     fun styleFilters(s: EqSettings, preset: Preset): List<Filter> = s.overrides[preset.id] ?: preset.filters
 
     /** Chaîne complète de filtres actuellement demandée. */
-    fun currentChain(s: EqSettings = settings.value): List<Filter> {
+    fun currentChain(s: EqSettings = settings.value, o: OutputInfo = output.value): List<Filter> {
         val preset = catalog.find(s.presetId)?.second ?: return emptyList()
-        return Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks)
+        return Curve.chain(catalog.base, styleFilters(s, preset), s.tweaks.copy(ft1 = ft1Effective(s, o)))
     }
 
     private fun encode(m: Map<String, List<Filter>>): String {

@@ -18,6 +18,20 @@ import fr.jon.basse.ui.BasseApp
 import fr.jon.basse.ui.UiCallbacks
 
 class MainActivity : ComponentActivity() {
+    private val resumeTick = androidx.compose.runtime.mutableIntStateOf(0)
+    private var watcher: OutputWatcher? = null
+
+    override fun onResume() {
+        super.onResume()
+        resumeTick.intValue++
+        watcher = OutputWatcher(this) { EqState.setOutput(it) }.also { it.start() }
+    }
+
+    override fun onPause() {
+        watcher?.stop(); watcher = null
+        super.onPause()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EqState.init(this)
@@ -27,6 +41,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val settings by EqState.settings.collectAsState()
             val status by EqState.status.collectAsState()
+            val output by EqState.output.collectAsState()
+            val lastApp by EqState.lastApp.collectAsState()
+            val tick = resumeTick.intValue
             val notifPerm = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
             val cb = UiCallbacks(
@@ -49,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 update = { f -> EqState.update(this, f) },
             )
             MaterialTheme(colorScheme = darkColorScheme()) {
-                BasseApp(settings, status, cb)
+                BasseApp(settings, status, output, lastApp, tick, cb)
             }
         }
     }

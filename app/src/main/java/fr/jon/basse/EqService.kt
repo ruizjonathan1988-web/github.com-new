@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class EqService : Service() {
@@ -40,6 +41,8 @@ class EqService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val engine = EqEngine()
     private var lastGlobalWanted: Boolean? = null
+    private lateinit var outputs: OutputWatcher
+    private lateinit var poller: ForegroundPoller
 
     private val sessionReceiver = object : BroadcastReceiver() {
         override fun onReceive(c: Context, i: Intent) = handleSessionIntent(i)
@@ -58,8 +61,13 @@ class EqService : Service() {
         }
         ContextCompat.registerReceiver(this, sessionReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
 
+        outputs = OutputWatcher(this) { EqState.setOutput(it) }
+        outputs.start()
+        poller = ForegroundPoller(this) { pkg -> EqState.onForegroundApp(this, pkg) }
+        poller.start()
+
         scope.launch {
-            EqState.settings.collect { s ->
+            combine(EqState.settings, EqState.output) { s, o -> s to o }.collect { (s, o) ->
                 if (!s.enabled) {
                     engine.setActive(false)
                     engine.releaseAll()
@@ -68,12 +76,12 @@ class EqService : Service() {
                     stopSelf()
                     return@collect
                 }
-                engine.setCurve(EqState.currentChain(s))
+                engine.setCurve(EqState.currentChain(s, o))
                 if (lastGlobalWanted != s.globalMode) {
                     lastGlobalWanted = s.globalMode
                     if (s.globalMode) engine.attach(0) else engine.detach(0)
                 }
-                engine.setActive(true)
+                engine.setActive(!EqState.pausedBySpeaker(s, o))
                 publish(null)
                 notifyUpdate(s)
             }
@@ -153,6 +161,8 @@ class EqService : Service() {
 
     override fun onDestroy() {
         runCatching { unregisterReceiver(sessionReceiver) }
+        if (::outputs.isInitialized) outputs.stop()
+        if (::poller.isInitialized) poller.stop()
         engine.releaseAll()
         scope.cancel()
         EqState.setStatus(EngineStatus())
