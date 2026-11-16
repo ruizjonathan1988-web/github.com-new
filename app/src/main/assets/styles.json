@@ -1,0 +1,5114 @@
+{
+ "version": 1,
+ "ft1_base": [
+  {
+   "type": "PK",
+   "f": 250.0,
+   "g": -1.5,
+   "q": 1.0
+  },
+  {
+   "type": "PK",
+   "f": 3800.0,
+   "g": 2.0,
+   "q": 1.5
+  },
+  {
+   "type": "PK",
+   "f": 7500.0,
+   "g": -3.0,
+   "q": 4.0
+  }
+ ],
+ "families": [
+  {
+   "id": "dnb",
+   "name": "Drum & Bass / Jungle",
+   "c1": "#0B3D2E",
+   "c2": "#00140D",
+   "accent": "#39FF88",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "dnb.drum_et_bass",
+     "name": "Drum & Bass",
+     "bpm": 174,
+     "desc": "Sub vers 50 Hz, caisse claire qui claque",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 55.0,
+       "g": 4.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.2
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "dnb.drum_et_bass.liquid",
+       "name": "Liquid",
+       "bpm": 174,
+       "desc": "Nappes et voix soyeuses, aigus adoucis",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 1200.0,
+         "g": 1.0,
+         "q": 0.8
+        },
+        {
+         "type": "PK",
+         "f": 7500.0,
+         "g": -1.0,
+         "q": 4.0
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.neurofunk",
+       "name": "Neurofunk",
+       "bpm": 174,
+       "desc": "Growl du reese et snare tranchante",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 500.0,
+         "g": 1.0,
+         "q": 0.9
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 2.0,
+         "q": 1.2
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.jump_up",
+       "name": "Jump-Up",
+       "bpm": 175,
+       "desc": "Wobbles et sub énormes",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 45.0,
+         "g": 5.0,
+         "q": 1.2
+        },
+        {
+         "type": "PK",
+         "f": 150.0,
+         "g": -1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.2
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.rollers",
+       "name": "Rollers",
+       "bpm": 174,
+       "desc": "Sub roulant, aigus reposants pour les longues sessions",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 4.5,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 9000.0,
+         "g": -1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.dancefloor",
+       "name": "Dancefloor",
+       "bpm": 174,
+       "desc": "Énergie club, drops brillants",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 55.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.5,
+         "q": 1.2
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.halftime_minimal",
+       "name": "Halftime / Minimal",
+       "bpm": 170,
+       "desc": "Grave profond et espace",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 45.0,
+         "g": 4.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 200.0,
+         "g": -1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 0.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.techstep",
+       "name": "Techstep",
+       "bpm": 172,
+       "desc": "Basses métalliques, mid agressif",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 800.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.5,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.darkstep",
+       "name": "Darkstep",
+       "bpm": 175,
+       "desc": "Sombre et serré",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 300.0,
+         "g": -1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 4000.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.crossbreed",
+       "name": "Crossbreed",
+       "bpm": 175,
+       "desc": "Kick hardcore sur breaks DnB",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 4.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2800.0,
+         "g": -1.0,
+         "q": 1.5
+        },
+        {
+         "type": "HS",
+         "f": 9000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.atmospheric",
+       "name": "Atmospheric",
+       "bpm": 172,
+       "desc": "Pads et réverbes aériennes",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 7500.0,
+         "g": -1.0,
+         "q": 4.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.drum_et_bass.drumfunk",
+       "name": "Drumfunk",
+       "bpm": 174,
+       "desc": "Breaks découpés très détaillés",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 180.0,
+         "g": 1.0,
+         "q": 1.2
+        },
+        {
+         "type": "PK",
+         "f": 5000.0,
+         "g": 1.5,
+         "q": 1.5
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "dnb.jungle",
+     "name": "Jungle",
+     "bpm": 165,
+     "desc": "Corps et ghost notes des breaks",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 180.0,
+       "g": 1.0,
+       "q": 1.2
+      },
+      {
+       "type": "PK",
+       "f": 5000.0,
+       "g": 1.5,
+       "q": 1.5
+      }
+     ],
+     "subs": [
+      {
+       "id": "dnb.jungle.ragga_jungle",
+       "name": "Ragga Jungle",
+       "bpm": 165,
+       "desc": "Sub 808 et voix du MC",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 1000.0,
+         "g": 1.0,
+         "q": 0.8
+        },
+        {
+         "type": "PK",
+         "f": 5000.0,
+         "g": 1.0,
+         "q": 1.5
+        }
+       ]
+      },
+      {
+       "id": "dnb.jungle.darkside",
+       "name": "Darkside",
+       "bpm": 165,
+       "desc": "Basses sombres, breaks secs",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 55.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 250.0,
+         "g": -1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 4500.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "dnb.jungle.atmospheric_intelligent",
+       "name": "Atmospheric / Intelligent",
+       "bpm": 165,
+       "desc": "Nappes et air",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "dnb.jungle.old_school_90s",
+       "name": "Old School 90s",
+       "bpm": 160,
+       "desc": "Redonne de l'éclat aux vinyles",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 70.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "techno",
+   "name": "Techno",
+   "c1": "#2A0508",
+   "c2": "#050102",
+   "accent": "#FF2D3D",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "techno.hard_techno",
+     "name": "Hard Techno",
+     "bpm": 150,
+     "desc": "Kick et rumble, moins de fatigue sur les kicks saturés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.4
+      },
+      {
+       "type": "PK",
+       "f": 2800.0,
+       "g": -1.5,
+       "q": 1.5
+      },
+      {
+       "type": "HS",
+       "f": 9000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "techno.hard_techno.industrielle",
+       "name": "Industrielle",
+       "bpm": 145,
+       "desc": "Textures dures, médiums calmés",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 120.0,
+         "g": 1.0,
+         "q": 1.2
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": -2.5,
+         "q": 1.2
+        }
+       ]
+      },
+      {
+       "id": "techno.hard_techno.schranz",
+       "name": "Schranz",
+       "bpm": 155,
+       "desc": "Kick haut et percus métalliques",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 80.0,
+         "g": 3.0,
+         "q": 1.2
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": -2.0,
+         "q": 1.5
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.hard_techno.hardgroove",
+       "name": "Hardgroove",
+       "bpm": 145,
+       "desc": "Percussions et groove",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 5500.0,
+         "g": 1.5,
+         "q": 1.5
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.hard_techno.hard_rave",
+       "name": "Hard Rave",
+       "bpm": 155,
+       "desc": "Leads rave et kick",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 1500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.hard_techno.acid",
+       "name": "Acid",
+       "bpm": 145,
+       "desc": "La 303 qui hurle",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 1200.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 8000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "techno.techno",
+     "name": "Techno",
+     "bpm": 130,
+     "desc": "Kick serré, hats nets",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "techno.techno.peak_time",
+       "name": "Peak Time",
+       "bpm": 132,
+       "desc": "Énergie de fin de nuit",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 50.0,
+         "g": 3.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.minimal",
+       "name": "Minimal",
+       "bpm": 125,
+       "desc": "Clics et micro-détails",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 45.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 7000.0,
+         "g": 1.0,
+         "q": 1.5
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.dub_techno",
+       "name": "Dub Techno",
+       "bpm": 122,
+       "desc": "Chaleur et échos feutrés",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 300.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 6000.0,
+         "g": -1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.detroit",
+       "name": "Detroit",
+       "bpm": 128,
+       "desc": "Synthés et soul machine",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 1000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.melodic_techno",
+       "name": "Melodic Techno",
+       "bpm": 124,
+       "desc": "Arpèges et espace",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 600.0,
+         "g": 1.0,
+         "q": 0.8
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.hypnotic_raw",
+       "name": "Hypnotic / Raw",
+       "bpm": 135,
+       "desc": "Rumble hypnotique",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 45.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 150.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": -1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "techno.techno.tech_house",
+       "name": "Tech House",
+       "bpm": 126,
+       "desc": "Groove et percus",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "house",
+   "name": "House",
+   "c1": "#2B1E05",
+   "c2": "#0D0802",
+   "accent": "#FFB627",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "house.house",
+     "name": "House",
+     "bpm": 124,
+     "desc": "Kick rond, piano et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "house.house.deep_house",
+       "name": "Deep House",
+       "bpm": 122,
+       "desc": "Grave chaud et aigus soyeux",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 100.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 300.0,
+         "g": -1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.chicago",
+       "name": "Chicago",
+       "bpm": 122,
+       "desc": "Boîtes à rythmes classiques",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 70.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.french_touch",
+       "name": "French Touch",
+       "bpm": 124,
+       "desc": "Samples filtrés",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 80.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 1000.0,
+         "g": 1.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 5000.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "house.house.uk_garage",
+       "name": "UK Garage",
+       "bpm": 132,
+       "desc": "Sub et rythmes swing",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 55.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 1500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.afro_house",
+       "name": "Afro House",
+       "bpm": 122,
+       "desc": "Percussions vivantes",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3500.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.progressive_house",
+       "name": "Progressive House",
+       "bpm": 126,
+       "desc": "Montées amples",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.electro_house",
+       "name": "Electro House",
+       "bpm": 128,
+       "desc": "Basses saturées",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.nu_disco",
+       "name": "Nu-Disco",
+       "bpm": 118,
+       "desc": "Basse funky, cordes",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 90.0,
+         "g": 2.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 800.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "house.house.amapiano",
+       "name": "Amapiano",
+       "bpm": 112,
+       "desc": "Log drum très grave",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 45.0,
+         "g": 5.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "trance",
+   "name": "Trance & Psy",
+   "c1": "#1A0B3B",
+   "c2": "#05020F",
+   "accent": "#B66BFF",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "trance.trance",
+     "name": "Trance",
+     "bpm": 138,
+     "desc": "Médiums épais, aigus brillants",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "trance.trance.uplifting",
+       "name": "Uplifting",
+       "bpm": 138,
+       "desc": "Supersaws et émotions",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 400.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "trance.trance.vocal_trance",
+       "name": "Vocal Trance",
+       "bpm": 138,
+       "desc": "Voix au premier plan",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.5,
+         "q": 0.9
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "trance.trance.hard_trance",
+       "name": "Hard Trance",
+       "bpm": 150,
+       "desc": "Kick plus dur",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "trance.psytrance",
+     "name": "Psytrance",
+     "bpm": 145,
+     "desc": "Kick/basse roulante séparés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 150.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "trance.psytrance.goa",
+       "name": "Goa",
+       "bpm": 142,
+       "desc": "Leads acides",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 1500.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "trance.psytrance.progressive_psy",
+       "name": "Progressive Psy",
+       "bpm": 136,
+       "desc": "Groove profond",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 50.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "trance.psytrance.darkpsy_forest",
+       "name": "Darkpsy / Forest",
+       "bpm": 150,
+       "desc": "Textures organiques sombres",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 50.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 6000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hard",
+   "name": "Hardcore & Hardstyle",
+   "c1": "#3B0A00",
+   "c2": "#0F0300",
+   "accent": "#FF6A00",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "hard.hardstyle",
+     "name": "Hardstyle",
+     "bpm": 150,
+     "desc": "Kick distordu et leads",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "hard.hardstyle.euphoric",
+       "name": "Euphoric",
+       "bpm": 150,
+       "desc": "Mélodies épiques",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 70.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "hard.hardstyle.rawstyle",
+       "name": "Rawstyle",
+       "bpm": 152,
+       "desc": "Kicks bruts",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 65.0,
+         "g": 3.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 300.0,
+         "g": -1.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.5,
+         "q": 1.0
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "hard.hardcore",
+     "name": "Hardcore",
+     "bpm": 180,
+     "desc": "Kick massif, médiums apaisés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": -1.5,
+       "q": 1.5
+      }
+     ],
+     "subs": [
+      {
+       "id": "hard.hardcore.gabber",
+       "name": "Gabber",
+       "bpm": 190,
+       "desc": "Kick gabber",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": -2.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "hard.hardcore.frenchcore",
+       "name": "Frenchcore",
+       "bpm": 200,
+       "desc": "Rapide et percutant",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": -2.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "hard.hardcore.uptempo",
+       "name": "Uptempo",
+       "bpm": 210,
+       "desc": "Saturation extrême maîtrisée",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 3.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2800.0,
+         "g": -2.5,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "hard.hardcore.happy_hardcore",
+       "name": "Happy Hardcore",
+       "bpm": 175,
+       "desc": "Piano et voix pitchées",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 2.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "hard.hardcore.speedcore",
+       "name": "Speedcore",
+       "bpm": 250,
+       "desc": "Limite la fatigue",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 60.0,
+         "g": 2.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": -3.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 8000.0,
+         "g": -1.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bass",
+   "name": "Bass Music & Dubstep",
+   "c1": "#04203A",
+   "c2": "#01070F",
+   "accent": "#00C2FF",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "bass.dubstep",
+     "name": "Dubstep",
+     "bpm": 140,
+     "desc": "Sub énorme, wobbles lisibles",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 5.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": [
+      {
+       "id": "bass.dubstep.uk_deep_dubstep",
+       "name": "UK / Deep Dubstep",
+       "bpm": 140,
+       "desc": "Sub ressenti, minimalisme",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 40.0,
+         "g": 5.0,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 8000.0,
+         "g": -1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "bass.dubstep.riddim_brostep",
+       "name": "Riddim / Brostep",
+       "bpm": 150,
+       "desc": "Basses mécaniques",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 50.0,
+         "g": 4.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 800.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.5,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "bass.dubstep.tearout",
+       "name": "Tearout",
+       "bpm": 150,
+       "desc": "Agressif",
+       "filters": [
+        {
+         "type": "PK",
+         "f": 55.0,
+         "g": 4.0,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "bass.dubstep.melodic_dubstep",
+       "name": "Melodic Dubstep",
+       "bpm": 150,
+       "desc": "Mélodies et drops",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 2.0,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "bass.trap_edm",
+     "name": "Trap EDM",
+     "bpm": 140,
+     "desc": "808 et hats",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 5.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "bass.future_bass",
+     "name": "Future Bass",
+     "bpm": 150,
+     "desc": "Accords larges et brillants",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 55.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "bass.grime",
+     "name": "Grime",
+     "bpm": 140,
+     "desc": "Sub et flow du MC",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 4.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 0.9
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "bass.bass_house",
+     "name": "Bass House",
+     "bpm": 126,
+     "desc": "Basses mordantes",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "bass.footwork_juke",
+     "name": "Footwork / Juke",
+     "bpm": 160,
+     "desc": "808 et samples hachés",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 4.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "bass.wave",
+     "name": "Wave",
+     "bpm": 130,
+     "desc": "Sub et pads éthérés",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 3.5,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "breaks",
+   "name": "Breakbeat & Rave",
+   "c1": "#33001F",
+   "c2": "#0D0008",
+   "accent": "#FF2F92",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "breaks.breakbeat",
+     "name": "Breakbeat",
+     "bpm": 130,
+     "desc": "Breaks pleins et détaillés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": 1.0,
+       "q": 1.2
+      },
+      {
+       "type": "PK",
+       "f": 5000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "breaks.big_beat",
+     "name": "Big Beat",
+     "bpm": 125,
+     "desc": "Gros breaks et guitares",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "breaks.nu_skool_breaks",
+     "name": "Nu Skool Breaks",
+     "bpm": 135,
+     "desc": "Basses et snare",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "breaks.breakcore",
+     "name": "Breakcore",
+     "bpm": 180,
+     "desc": "Chaos lisible",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": -1.5,
+       "q": 1.5
+      },
+      {
+       "type": "PK",
+       "f": 5000.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "breaks.rave_90s",
+     "name": "Rave 90s",
+     "bpm": 145,
+     "desc": "Stabs et pianos rave",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "breaks.electro",
+     "name": "Electro",
+     "bpm": 125,
+     "desc": "808 et synthés robotiques",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "chill",
+   "name": "Ambient & Downtempo",
+   "c1": "#0A2A33",
+   "c2": "#020A0D",
+   "accent": "#6EE7F0",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "chill.ambient",
+     "name": "Ambient",
+     "bpm": 70,
+     "desc": "Espace et douceur",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chill.trip_hop",
+     "name": "Trip-Hop",
+     "bpm": 90,
+     "desc": "Grave enveloppant, grain",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 300.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chill.lo_fi_hip_hop",
+     "name": "Lo-fi Hip-Hop",
+     "bpm": 85,
+     "desc": "Chaud et feutré",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chill.chillout_lounge",
+     "name": "Chillout / Lounge",
+     "bpm": 100,
+     "desc": "Rond et aéré",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chill.idm_electronica",
+     "name": "IDM / Electronica",
+     "bpm": 120,
+     "desc": "Micro-détails",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 5000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chill.dark_ambient_drone",
+     "name": "Dark Ambient / Drone",
+     "bpm": 60,
+     "desc": "Grondements profonds",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 40.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 6000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "synth",
+   "name": "Synthwave & Électro-pop",
+   "c1": "#2A0636",
+   "c2": "#0A0212",
+   "accent": "#FF4FD8",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "synth.synthwave",
+     "name": "Synthwave",
+     "bpm": 100,
+     "desc": "Snare à réverbe et synthés 80s",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.darksynth",
+     "name": "Darksynth",
+     "bpm": 110,
+     "desc": "Basses saturées",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 300.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.synthpop",
+     "name": "Synthpop",
+     "bpm": 118,
+     "desc": "Voix et synthés clairs",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.ebm_industrial",
+     "name": "EBM / Industrial",
+     "bpm": 125,
+     "desc": "Basse séquencée martiale",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1200.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3500.0,
+       "g": -1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.cold_darkwave",
+     "name": "Cold / Darkwave",
+     "bpm": 120,
+     "desc": "Froid et précis",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.vaporwave",
+     "name": "Vaporwave",
+     "bpm": 80,
+     "desc": "Nostalgie ouatée",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 100.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "synth.hyperpop",
+     "name": "Hyperpop",
+     "bpm": 160,
+     "desc": "Saturé mais sans agresser",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 7500.0,
+       "g": -1.0,
+       "q": 4.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "hiphop",
+   "name": "Hip-Hop & Rap",
+   "c1": "#2E1A00",
+   "c2": "#0D0700",
+   "accent": "#FFC94D",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "hiphop.rap_fr",
+     "name": "Rap FR",
+     "bpm": 90,
+     "desc": "Kick et textes bien compréhensibles",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 0.9
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.boom_bap",
+     "name": "Boom Bap",
+     "bpm": 90,
+     "desc": "Kick/snare sec et samples",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.trap",
+     "name": "Trap",
+     "bpm": 140,
+     "desc": "808 profonde, voix claire",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 5.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.drill",
+     "name": "Drill",
+     "bpm": 142,
+     "desc": "Slides de 808",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 45.0,
+       "g": 5.0,
+       "q": 1.1
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 9000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.g_funk",
+     "name": "G-Funk",
+     "bpm": 92,
+     "desc": "Lead synthé et basse",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.cloud_plugg",
+     "name": "Cloud / Plugg",
+     "bpm": 140,
+     "desc": "Aérien",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 3.5,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.phonk",
+     "name": "Phonk",
+     "bpm": 130,
+     "desc": "Cowbell et 808 saturée",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 4.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "hiphop.old_school_jazz_rap",
+     "name": "Old School / Jazz Rap",
+     "bpm": 92,
+     "desc": "Chaleur vinyle",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "rnb",
+   "name": "R&B, Soul & Funk",
+   "c1": "#2E0F1A",
+   "c2": "#0D0408",
+   "accent": "#FF7AA8",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "rnb.retb",
+     "name": "R&B",
+     "bpm": 95,
+     "desc": "Grave soyeux et voix",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rnb.neo_soul",
+     "name": "Neo Soul",
+     "bpm": 85,
+     "desc": "Rondeur organique",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rnb.soul_motown",
+     "name": "Soul / Motown",
+     "bpm": 105,
+     "desc": "Réveille les vieux enregistrements",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rnb.funk",
+     "name": "Funk",
+     "bpm": 108,
+     "desc": "Slap et guitare rythmique",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 700.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3500.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rnb.disco",
+     "name": "Disco",
+     "bpm": 120,
+     "desc": "Basse et cordes",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 90.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rnb.gospel",
+     "name": "Gospel",
+     "bpm": 90,
+     "desc": "Chœurs",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 150.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "reggae",
+   "name": "Reggae, Dub & Dancehall",
+   "c1": "#0A2A0A",
+   "c2": "#030D03",
+   "accent": "#FFD400",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "reggae.roots_reggae",
+     "name": "Roots Reggae",
+     "bpm": 75,
+     "desc": "Basse ronde",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 70.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "reggae.dub",
+     "name": "Dub",
+     "bpm": 70,
+     "desc": "Sub et échos",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 55.0,
+       "g": 4.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 300.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "reggae.steppers_dub_uk",
+     "name": "Steppers / Dub UK",
+     "bpm": 140,
+     "desc": "Sub sound system",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 4.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "reggae.dancehall",
+     "name": "Dancehall",
+     "bpm": 100,
+     "desc": "Riddims et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "reggae.ska_rocksteady",
+     "name": "Ska / Rocksteady",
+     "bpm": 140,
+     "desc": "Cuivres et skank",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "rock",
+   "name": "Rock",
+   "c1": "#2B0F05",
+   "c2": "#0D0402",
+   "accent": "#FF8A3D",
+   "anim": "bars",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "rock.rock",
+     "name": "Rock",
+     "bpm": 120,
+     "desc": "Batterie et guitares",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.classic_rock",
+     "name": "Classic Rock",
+     "bpm": 115,
+     "desc": "Éclat des années 70",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.hard_rock",
+     "name": "Hard Rock",
+     "bpm": 125,
+     "desc": "Riffs mordants",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 90.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 2.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.indie_alternatif",
+     "name": "Indie / Alternatif",
+     "bpm": 125,
+     "desc": "Clair et vif",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.grunge",
+     "name": "Grunge",
+     "bpm": 115,
+     "desc": "Guitares épaisses",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.stoner_desert",
+     "name": "Stoner / Desert",
+     "bpm": 100,
+     "desc": "Fuzz lourde",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": 1.5,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.post_rock_shoegaze",
+     "name": "Post-Rock / Shoegaze",
+     "bpm": 110,
+     "desc": "Murs de son",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "rock.rock_psyche",
+     "name": "Rock Psyché",
+     "bpm": 110,
+     "desc": "Vintage et coloré",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "metal",
+   "name": "Metal",
+   "c1": "#1A1A1A",
+   "c2": "#050505",
+   "accent": "#C0C7D0",
+   "anim": "bars",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "metal.heavy_metal",
+     "name": "Heavy Metal",
+     "bpm": 130,
+     "desc": "Riffs et voix puissantes",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 90.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 800.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.thrash",
+     "name": "Thrash",
+     "bpm": 180,
+     "desc": "Médiums creusés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 500.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.death_metal",
+     "name": "Death Metal",
+     "bpm": 200,
+     "desc": "Double pédale lisible",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": -1.5,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.black_metal",
+     "name": "Black Metal",
+     "bpm": 200,
+     "desc": "Donne du corps aux prods fines",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 300.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 6000.0,
+       "g": -1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.doom_sludge",
+     "name": "Doom / Sludge",
+     "bpm": 70,
+     "desc": "Lourd et lent",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 3.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 400.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.metalcore_djent",
+     "name": "Metalcore / Djent",
+     "bpm": 140,
+     "desc": "Chugs serrés",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 500.0,
+       "g": -1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.nu_metal",
+     "name": "Nu Metal",
+     "bpm": 100,
+     "desc": "Grave et scratchs",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 800.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.metal_symphonique",
+     "name": "Metal Symphonique",
+     "bpm": 140,
+     "desc": "Orchestre et guitares",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "metal.metal_indus",
+     "name": "Metal Indus",
+     "bpm": 120,
+     "desc": "Machines et riffs",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 65.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3500.0,
+       "g": -1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "punk",
+   "name": "Punk",
+   "c1": "#2E2600",
+   "c2": "#0D0B00",
+   "accent": "#F2FF3D",
+   "anim": "bars",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "punk.punk",
+     "name": "Punk",
+     "bpm": 170,
+     "desc": "Énergie brute, moins de dureté",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "punk.pop_punk",
+     "name": "Pop Punk",
+     "bpm": 170,
+     "desc": "Refrains clairs",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "punk.hardcore_punk",
+     "name": "Hardcore Punk",
+     "bpm": 190,
+     "desc": "Rapide et agressif",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 90.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "punk.post_punk",
+     "name": "Post-Punk",
+     "bpm": 140,
+     "desc": "Basse en avant",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "pop",
+   "name": "Pop",
+   "c1": "#3A0A2A",
+   "c2": "#0F030B",
+   "accent": "#FF5CC8",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "pop.pop",
+     "name": "Pop",
+     "bpm": 115,
+     "desc": "Voix et brillance",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 0.8
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.variete_fr",
+     "name": "Variété FR",
+     "bpm": 110,
+     "desc": "Voix française au centre",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.k_pop",
+     "name": "K-Pop",
+     "bpm": 125,
+     "desc": "Production dense et brillante",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.j_pop",
+     "name": "J-Pop",
+     "bpm": 130,
+     "desc": "Rapide et lumineux",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.dance_pop",
+     "name": "Dance-Pop",
+     "bpm": 125,
+     "desc": "Club et radio",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.indie_pop",
+     "name": "Indie Pop",
+     "bpm": 115,
+     "desc": "Léger et clair",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "pop.ballade",
+     "name": "Ballade",
+     "bpm": 70,
+     "desc": "Intime et douce",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 7500.0,
+       "g": -1.0,
+       "q": 4.0
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "chanson",
+   "name": "Chanson & Acoustique",
+   "c1": "#2A1A0A",
+   "c2": "#0D0803",
+   "accent": "#E8B37A",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "chanson.chanson_francaise",
+     "name": "Chanson française",
+     "bpm": 100,
+     "desc": "La voix et le texte d'abord",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 100.0,
+       "g": 0.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1800.0,
+       "g": 2.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 7500.0,
+       "g": -1.0,
+       "q": 4.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chanson.folk",
+     "name": "Folk",
+     "bpm": 100,
+     "desc": "Guitares acoustiques",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 150.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chanson.country",
+     "name": "Country",
+     "bpm": 110,
+     "desc": "Twang et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "chanson.acoustique_unplugged",
+     "name": "Acoustique / Unplugged",
+     "bpm": 90,
+     "desc": "Bois des instruments",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "jazz",
+   "name": "Jazz & Blues",
+   "c1": "#0A1633",
+   "c2": "#02060F",
+   "accent": "#5AA9FF",
+   "anim": "waves",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "jazz.jazz",
+     "name": "Jazz",
+     "bpm": 120,
+     "desc": "Contrebasse définie, cymbales",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": -1.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 800.0,
+       "g": 1.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.swing_big_band",
+     "name": "Swing / Big Band",
+     "bpm": 160,
+     "desc": "Cuivres",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 150.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.jazz_manouche",
+     "name": "Jazz Manouche",
+     "bpm": 180,
+     "desc": "Pompe et solos",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.fusion",
+     "name": "Fusion",
+     "bpm": 120,
+     "desc": "Basse électrique et claviers",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.smooth_jazz",
+     "name": "Smooth Jazz",
+     "bpm": 95,
+     "desc": "Doux et rond",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.nu_jazz",
+     "name": "Nu Jazz",
+     "bpm": 120,
+     "desc": "Jazz et beats",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.blues",
+     "name": "Blues",
+     "bpm": 90,
+     "desc": "Guitare et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "jazz.blues_rock",
+     "name": "Blues Rock",
+     "bpm": 115,
+     "desc": "Overdrive chaleureux",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "classique",
+   "name": "Classique",
+   "c1": "#2A2210",
+   "c2": "#0D0A04",
+   "accent": "#F2D27A",
+   "anim": "particles",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "classique.symphonique",
+     "name": "Symphonique",
+     "bpm": 80,
+     "desc": "Ampleur sans grossir le FT1",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 40.0,
+       "g": 1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": -0.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.musique_de_chambre",
+     "name": "Musique de chambre",
+     "bpm": 80,
+     "desc": "Détail des cordes",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": -1.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.piano_solo",
+     "name": "Piano solo",
+     "bpm": 80,
+     "desc": "Attaque et résonance",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": -0.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.opera_lyrique",
+     "name": "Opéra / Lyrique",
+     "bpm": 80,
+     "desc": "Voix sans sifflantes",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 7500.0,
+       "g": -1.5,
+       "q": 4.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.baroque",
+     "name": "Baroque",
+     "bpm": 90,
+     "desc": "Clavecin et cordes",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": -1.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.orgue",
+     "name": "Orgue",
+     "bpm": 60,
+     "desc": "Les tuyaux graves",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 40.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "classique.musique_de_film",
+     "name": "Musique de film",
+     "bpm": 90,
+     "desc": "Orchestre et percussions",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 40.0,
+       "g": 2.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": -0.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "latino",
+   "name": "Latino",
+   "c1": "#3A1500",
+   "c2": "#0F0500",
+   "accent": "#FF9F1C",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "latino.reggaeton",
+     "name": "Reggaeton",
+     "bpm": 95,
+     "desc": "Dembow et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 4.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.salsa",
+     "name": "Salsa",
+     "bpm": 180,
+     "desc": "Cuivres et percus",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.bachata",
+     "name": "Bachata",
+     "bpm": 130,
+     "desc": "Guitares et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.bossa_nova",
+     "name": "Bossa Nova",
+     "bpm": 120,
+     "desc": "Intime",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": -0.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.cumbia",
+     "name": "Cumbia",
+     "bpm": 95,
+     "desc": "Groove et accordéon",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.baile_funk",
+     "name": "Baile Funk",
+     "bpm": 130,
+     "desc": "808 brésilienne",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 4.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "latino.latin_trap",
+     "name": "Latin Trap",
+     "bpm": 140,
+     "desc": "808 et voix",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 45.0,
+       "g": 4.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "monde",
+   "name": "Musiques du monde",
+   "c1": "#0A2E26",
+   "c2": "#020D0B",
+   "accent": "#2EE6B8",
+   "anim": "particles",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "monde.afrobeats",
+     "name": "Afrobeats",
+     "bpm": 105,
+     "desc": "Groove et voix",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.afrobeat",
+     "name": "Afrobeat",
+     "bpm": 115,
+     "desc": "Cuivres et polyrythmies",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 80.0,
+       "g": 2.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 800.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.coupe_decale_ndombolo",
+     "name": "Coupé-décalé / Ndombolo",
+     "bpm": 130,
+     "desc": "Guitares sebene",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.rai_chaabi",
+     "name": "Raï / Chaâbi",
+     "bpm": 110,
+     "desc": "Voix et derbouka",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.oriental",
+     "name": "Oriental",
+     "bpm": 100,
+     "desc": "Oud et percussions",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.bollywood",
+     "name": "Bollywood",
+     "bpm": 115,
+     "desc": "Voix et tablas",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 60.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.zouk_kompa",
+     "name": "Zouk / Kompa",
+     "bpm": 95,
+     "desc": "Basse et guitares",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 70.0,
+       "g": 2.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.flamenco",
+     "name": "Flamenco",
+     "bpm": 120,
+     "desc": "Guitare et palmas",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 250.0,
+       "g": 1.0,
+       "q": 0.8
+      },
+      {
+       "type": "PK",
+       "f": 3500.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "monde.celtique",
+     "name": "Celtique",
+     "bpm": 110,
+     "desc": "Violons et flûtes",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 150.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    }
+   ]
+  },
+  {
+   "id": "video",
+   "name": "Cinéma & Vidéo",
+   "c1": "#140C02",
+   "c2": "#000000",
+   "accent": "#FFB000",
+   "anim": "cinema",
+   "kind": "video",
+   "styles": [
+    {
+     "id": "video.cinema",
+     "name": "Cinéma",
+     "bpm": 0,
+     "desc": "Explosions et dialogues",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 35.0,
+       "g": 2.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2200.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": [
+      {
+       "id": "video.cinema.action_blockbuster",
+       "name": "Action / Blockbuster",
+       "bpm": 0,
+       "desc": "Impacts et LFE",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 35.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2200.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "video.cinema.science_fiction",
+       "name": "Science-fiction",
+       "bpm": 0,
+       "desc": "Grondements et effets",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 35.0,
+         "g": 3.0,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "video.cinema.horreur_thriller",
+       "name": "Horreur / Thriller",
+       "bpm": 0,
+       "desc": "Détails qui font sursauter",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 40.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.0,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 10000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "video.cinema.drame",
+       "name": "Drame",
+       "bpm": 0,
+       "desc": "Dialogues avant tout",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 100.0,
+         "g": -1.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2200.0,
+         "g": 2.0,
+         "q": 1.0
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "video.series_dialogues",
+     "name": "Séries / Dialogues",
+     "bpm": 0,
+     "desc": "Voix nettes même à faible volume",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 120.0,
+       "g": -2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2200.0,
+       "g": 2.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.ufc_sport",
+     "name": "UFC / Sport",
+     "bpm": 0,
+     "desc": "Commentaires et impacts",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 100.0,
+       "g": -2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 1800.0,
+       "g": 2.0,
+       "q": 0.9
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.animes",
+     "name": "Animés",
+     "bpm": 0,
+     "desc": "Voix et musiques épiques",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 50.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.documentaires",
+     "name": "Documentaires",
+     "bpm": 0,
+     "desc": "Narration claire",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 100.0,
+       "g": -1.5,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 2.0,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.concerts",
+     "name": "Concerts",
+     "bpm": 0,
+     "desc": "Ambiance live",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 60.0,
+       "g": 2.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 12000.0,
+       "g": 1.5,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.nuit",
+     "name": "Nuit",
+     "bpm": 0,
+     "desc": "Faible volume, plus de relief",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 2.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "video.jeux_et_emulation",
+     "name": "Jeux & émulation",
+     "bpm": 0,
+     "desc": "Pas et effets lisibles",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 4000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "video.jeux_et_emulation.retro_8_16_bits",
+       "name": "Rétro 8/16 bits",
+       "bpm": 0,
+       "desc": "Chiptune moins criarde",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 80.0,
+         "g": 1.0,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 6000.0,
+         "g": -2.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "video.jeux_et_emulation.action_fps",
+       "name": "Action / FPS",
+       "bpm": 0,
+       "desc": "Positionnement",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": -1.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2000.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "PK",
+         "f": 4000.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 8000.0,
+         "g": 1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "video.jeux_et_emulation.jeux_de_rythme",
+       "name": "Jeux de rythme",
+       "bpm": 0,
+       "desc": "Kick et caisse claire",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 2.0,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 3000.0,
+         "g": 1.0,
+         "q": 1.0
+        }
+       ]
+      },
+      {
+       "id": "video.jeux_et_emulation.rpg_ambiance",
+       "name": "RPG / Ambiance",
+       "bpm": 0,
+       "desc": "Musiques et ambiances",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 50.0,
+         "g": 2.0,
+         "q": 0.7
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": 1.5,
+         "q": 0.7
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
