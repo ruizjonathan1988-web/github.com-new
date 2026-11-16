@@ -44,6 +44,7 @@ object Analyzer {
 
     @Volatile var uiVisible = false
     private var viz: Visualizer? = null
+    private var failedAt = 0L
     private var detector: ContentDetector? = null
 
     fun hasPermission(ctx: Context) =
@@ -53,6 +54,7 @@ object Analyzer {
     fun ensure(ctx: Context, want: Boolean) {
         if (!want || !hasPermission(ctx)) { stop(); return }
         if (viz != null) return
+        if (System.currentTimeMillis() - failedAt < 60_000) return
         try {
             val v = Visualizer(0)
             v.captureSize = Visualizer.getCaptureSizeRange()[1].coerceAtMost(2048)
@@ -72,6 +74,7 @@ object Analyzer {
             viz = v
         } catch (e: Throwable) {
             _guess.value = "Analyse indisponible sur cet appareil"
+            failedAt = System.currentTimeMillis()
             stop()
         }
     }
