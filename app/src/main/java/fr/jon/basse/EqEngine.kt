@@ -108,6 +108,14 @@ class EqEngine {
     }
 
     fun playerSessions(): Int = effects.keys.count { it != 0 }
+
+    /** Sessions trouvées par le scanner : on s'accroche aux nouvelles, on lâche celles qui ont disparu. */
+    private val scanned = HashSet<Int>()
+    fun syncScanned(found: Set<Int>) {
+        (scanned - found).forEach { detach(it) }
+        scanned.retainAll(found)
+        found.forEach { if (attach(it)) scanned += it }
+    }
     fun hasGlobal(): Boolean = effects.containsKey(0)
 
     fun releaseAll() {

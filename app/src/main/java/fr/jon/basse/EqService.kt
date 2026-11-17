@@ -43,6 +43,7 @@ class EqService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val engine = EqEngine()
     private var lastGlobalWanted: Boolean? = null
+    @Volatile private var scanBusy = false
     private lateinit var outputs: OutputWatcher
     private lateinit var poller: ForegroundPoller
 
@@ -71,6 +72,17 @@ class EqService : Service() {
             Exposure.tick(this, 2f)
             val st = EqState.settings.value
             Analyzer.ensure(this, st.enabled && (st.autoContent || Analyzer.uiVisible))
+            if (st.enabled && SessionScanner.granted(this) && !scanBusy) {
+                scanBusy = true
+                Thread {
+                    val found = SessionScanner.scan(this)
+                    android.os.Handler(android.os.Looper.getMainLooper()).post {
+                        scanBusy = false
+                        engine.syncScanned(found)
+                        publish(null)
+                    }
+                }.start()
+            }
         }) { pkg -> EqState.onForegroundApp(this, pkg) }
         poller.start()
 

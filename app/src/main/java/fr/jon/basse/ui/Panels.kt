@@ -412,6 +412,19 @@ private fun AutoCard(p: PanelCtx) {
             }
         }
 
+        // Détection des lecteurs (Android Auto, appli qui ne signalent pas leur son)
+        val dump = remember(p.tick) { fr.jon.basse.SessionScanner.granted(ctx) }
+        Text("Détection des lecteurs", color = Color.White, fontWeight = FontWeight.SemiBold)
+        if (dump) Hint("Activée : Basse trouve seule le son de Spotify, YouTube Music… (utile en Android Auto). Lecteurs égalisés : ${p.status.sessions}", a)
+        else {
+            Hint("Nécessaire en Android Auto. À faire une seule fois depuis un ordinateur (débogage USB activé sur le téléphone) :")
+            Text(fr.jon.basse.SessionScanner.ADB_CMD, color = a, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            ActionChip("Copier la commande", a) {
+                val cm = ctx.getSystemService(android.content.ClipboardManager::class.java)
+                cm.setPrimaryClip(android.content.ClipData.newPlainText("adb", fr.jon.basse.SessionScanner.ADB_CMD))
+            }
+        }
+
         // Contenu
         ToggleRow("Selon le contenu (expérimental)", "Écoute le tempo, le sub et la voix. Change de famille entre deux morceaux, garde votre sous-style", s.autoContent, a) {
             if (it && !Analyzer.hasPermission(ctx)) p.cb.askMic()
