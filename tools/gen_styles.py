@@ -340,7 +340,10 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "_", s).strip("_")
 
 def build():
-    out = {"version": 1, "ft1_base": parse("pk250-1.5 pk3800+2q1.5 pk7500-3q4"),
+    out = {"version": 1, # Correction FT1 v2 : mid-bass épais vers 150-200 Hz (TechPowerUp, Mobile Audiophile, Headfonics),
+           # creux 3-4 kHz comblé, pic 5-6 kHz (headphones.com, forum TN) et 7,5 kHz adoucis sans assombrir
+           # (Headphoneer trouve déjà les aigus un peu secs). Le sub sous 80 Hz n'est pas touché.
+           "ft1_base": parse("pk170-2q1.2 pk3500+1.5q2 pk5500-2q4 pk7500-2q4"),
            # CX-5 Bose : coupe-bas qui protège le caisson 13 cm, appui sur le grave des portes, comblement du creux
            # mesuré vers 180 Hz, bas-médium qui brouille un peu dégagé, aigus légèrement relevés.
            "cx5_base": [{"type": "HP", "f": 32.0, "g": 0.0, "q": 0.7}] + parse("pk100+1.5q0.9 pk180+2q2.5 pk350-2q1.2 hs8k+1.5"),
