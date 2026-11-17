@@ -241,7 +241,7 @@ object Exposure {
         val today = java.text.SimpleDateFormat("yyyyMMdd", java.util.Locale.ROOT).format(java.util.Date())
         var dose = if (p.getString("day", "") == today) p.getFloat("dose", 0f) else 0f
         var warned = if (p.getString("day", "") == today) p.getInt("warned", 0) else 0
-        val max = maxSpl(o)
+        val max = if (EqState.isCar(s, o)) -1f else maxSpl(o)
         val counting = s.exposureOn && max > 0 && am.isMusicActive
         var level = 0f
         if (counting) {

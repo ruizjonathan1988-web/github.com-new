@@ -307,7 +307,7 @@ private fun HeadphoneCard(p: PanelCtx) {
         }
         Text("Pour cette sortie (${o.label})", color = TextDim, fontSize = 12.sp)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            val choices = listOf(EqState.FT1, EqState.NONE) + s.profiles.map { it.id }
+            val choices = listOf(EqState.FT1, EqState.CX5, EqState.NONE) + s.profiles.map { it.id }
             choices.forEach { id ->
                 ActionChip(EqState.correctionName(s, id), a, filled = corr == id) {
                     p.cb.update { st -> st.copy(deviceCorrection = st.deviceCorrection + (o.key to id)) }
@@ -364,6 +364,12 @@ private fun AutoCard(p: PanelCtx) {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             ActionChip("→ ${p.preset.name} à la connexion", a, filled = true) { p.cb.update { st -> st.copy(devicePreset = st.devicePreset + (o.key to p.preset.id)) } }
             if (dp != null) ActionChip("Retirer", a) { p.cb.update { st -> st.copy(devicePreset = st.devicePreset - o.key) } }
+        }
+        val car = EqState.isCar(s, o)
+        ToggleRow("Cet appareil est une voiture ou une enceinte",
+            if (EqState.isMazda(o)) "Mazda détectée automatiquement : correction CX-5 Bose, pas de compteur d'exposition"
+            else "Pas de correction casque ni de compteur d'exposition pour cette sortie", car, a) { v ->
+            p.cb.update { st -> st.copy(carDevices = if (v) (st.carDevices + o.key).distinct() else st.carDevices - o.key) }
         }
         ToggleRow("Pause sur le haut-parleur", "Basse s'efface quand le son sort du téléphone", s.pauseOnSpeaker, a) { p.cb.update { st -> st.copy(pauseOnSpeaker = it) } }
 

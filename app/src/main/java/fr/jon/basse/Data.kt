@@ -35,7 +35,7 @@ data class Family(
     val styles: List<Preset>,
 )
 
-class Catalog(val base: List<Filter>, val families: List<Family>) {
+class Catalog(val base: List<Filter>, val families: List<Family>, val cx5Base: List<Filter> = emptyList()) {
     private val index: Map<String, Pair<Family, Preset>> = buildMap {
         for (f in families) for (s in f.styles) {
             put(s.id, f to s)
@@ -72,7 +72,8 @@ class Catalog(val base: List<Filter>, val families: List<Family>) {
                     )
                 }
             }
-            return Catalog(base, fams)
+            val cx5 = if (root.has("cx5_base")) filters(root.getJSONArray("cx5_base")) else emptyList()
+            return Catalog(base, fams, cx5)
         }
 
         private fun color(hex: String) = Color(android.graphics.Color.parseColor(hex))

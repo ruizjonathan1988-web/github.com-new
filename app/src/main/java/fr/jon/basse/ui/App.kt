@@ -155,6 +155,7 @@ private fun LazyListScope.browser(
             fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 4.dp, start = 4.dp))
     }
     if (browseFam.id == "freeparty") item { WoojerTip(accent) }
+    if (browseFam.id == "cx5") item { Cx5Tip(accent) }
     val rows = browseFam.styles.chunked(cols)
     rows.forEachIndexed { idx, row ->
         item(key = "row-${browseFam.id}-$idx") {
@@ -332,5 +333,22 @@ private fun StyleCard(st: Preset, isActive: Boolean, isExact: Boolean, modified:
             if (locked) Text(" 🔒", fontSize = 11.sp)
             if (isExact) Text("  ●", color = Color.Black, fontSize = 11.sp)
         }
+    }
+}
+
+
+@Composable
+private fun Cx5Tip(accent: Color) {
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color.Black.copy(alpha = 0.35f))
+            .border(1.dp, accent.copy(alpha = 0.5f), RoundedCornerShape(16.dp)).padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text("Réglages conseillés sur l'écran Mazda", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+        Text("Graves 0 et Aigus 0 (Basse s'en charge) · AudioPilot coupé (utilisez « Autoroute ») · Centerpoint coupé pour la musique, à essayer pour les films · ALC coupé · Balance et fader au centre.",
+            color = TextDim, fontSize = 12.sp)
+        Text("Ne couvrez pas les ouïes du coffre : le caisson y respire. Punch conseillé : Léger ou Moyen, jamais Fort (caisson de 13 cm).",
+            color = TextDim, fontSize = 12.sp)
+        Text("La correction CX-5 s'active toute seule quand le Bluetooth de la Mazda est connecté.", color = accent, fontSize = 12.sp)
     }
 }

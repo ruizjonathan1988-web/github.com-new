@@ -56,6 +56,23 @@ fam("dnb", "Drum & Bass / Jungle", "#0B3D2E", "#00140D", "#39FF88", "rings", "mu
     ]),
 ])
 
+# Mazda CX-5 2e génération (2017-2024), Bose 10 HP : tweeters 25 mm aux montants, 16,5 cm portes avant,
+# 13 cm portes arrière, centre 8 cm, "caisson" 13 cm dans la roue de secours.
+# La correction "cx5_base" est appliquée à part (comme celle du FT1). Les styles ci-dessous suivent
+# la cible voiture de Harman (grave renforcé sous 100 Hz, aigus en légère pente).
+fam("cx5", "Mazda CX-5 Bose", "#3A0508", "#0D0102", "#E8333A", "rings", "music", [
+    S("Référence voiture", 0, "ls90+3 hs3000-1", "Cible Harman voiture : grave plein, aigus naturels"),
+    S("Électro / DnB / Techno", 174, "pk55+3q1 pk120+1q1.2 pk2500+1 hs10k+0.5", "Sub tenu sans faire saturer le petit caisson", [
+        S("Free party au volant", 175, "ls60+3.5 pk2500+1.5 hs12k-1", "Façade de sound system, avec Punch Moyen"),
+        S("Jungle / breaks", 165, "ls60+2.5 pk180+1q1.5 pk5000+1.5q1.5", "Corps des breaks, ghost notes"),
+    ]),
+    S("Rap / Trap", 140, "pk50+3q1.1 pk200-1 pk1500+1.5", "808 et voix bien devant"),
+    S("Rock / Pop", 120, "pk100+1.5 pk3000+1 hs10k+1", "Batterie et guitares"),
+    S("Voix : podcasts, radio, GPS", 0, "ls120-3 pk2500+2.5q0.9", "Paroles nettes même sur la route"),
+    S("Autoroute", 0, "ls80+3 pk2000+1.5 hs8k+1", "Compense le bruit de roulement (avec AudioPilot coupé)"),
+    S("Ville / nuit calme", 0, "ls70+1 hs8k-1", "Doux à bas volume"),
+])
+
 fam("universel", "Universel", "#1A1A2E", "#05050C", "#9AD0FF", "waves", "music", [
     S("Tout-terrain", 0, "ls50+2 pk2500+0.5 hs10k+0.5", "Pour les playlists mélangées : un peu de sub, rien d'exagéré"),
     S("Tout-terrain + basses", 0, "ls50+3.5 pk200-0.5 hs10k+1", "Plus de sub pour tout ce qui est électro et rap"),
@@ -323,7 +340,11 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "_", s).strip("_")
 
 def build():
-    out = {"version": 1, "ft1_base": parse("pk250-1.5 pk3800+2q1.5 pk7500-3q4"), "families": []}
+    out = {"version": 1, "ft1_base": parse("pk250-1.5 pk3800+2q1.5 pk7500-3q4"),
+           # CX-5 Bose : coupe-bas qui protège le caisson 13 cm, appui sur le grave des portes, comblement du creux
+           # mesuré vers 180 Hz, bas-médium qui brouille un peu dégagé, aigus légèrement relevés.
+           "cx5_base": [{"type": "HP", "f": 32.0, "g": 0.0, "q": 0.7}] + parse("pk100+1.5q0.9 pk180+2q2.5 pk350-2q1.2 hs8k+1.5"),
+           "families": []}
     n = 0
     for f in F:
         fam_out = {k: f[k] for k in ("id", "name", "c1", "c2", "accent", "anim", "kind")}

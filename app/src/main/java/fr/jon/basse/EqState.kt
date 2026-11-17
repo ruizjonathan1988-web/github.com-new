@@ -63,6 +63,8 @@ data class EqSettings(
     val exposureOn: Boolean = true,
     /** Réglage automatique selon le contenu (expérimental). */
     val autoContent: Boolean = false,
+    /** Sorties marquées "voiture ou enceinte" (pas de compteur d'exposition, pas de correction casque). */
+    val carDevices: List<String> = emptyList(),
 )
 
 data class EngineStatus(val globalOk: Boolean? = null, val sessions: Int = 0, val error: String? = null)
@@ -71,6 +73,8 @@ object EqState {
     private const val P = "basse_prefs"
     const val FT1 = "ft1"
     const val NONE = "none"
+    const val CX5 = "cx5"
+    const val CX5_DEFAULT_STYLE = "cx5.reference_voiture"
     val GRAPHIC_FREQS = doubleArrayOf(31.0, 63.0, 125.0, 250.0, 500.0, 1000.0, 2000.0, 4000.0, 8000.0, 16000.0)
 
     lateinit var catalog: Catalog
@@ -234,6 +238,7 @@ object EqState {
             .put("end", s.schedule.endMin).put("preset", s.schedule.presetId).put("loudness", s.schedule.loudness))
         .put("schedActive", s.schedActive).put("schedPrevPreset", s.schedPrevPreset ?: "").put("schedPrevLoud", s.schedPrevLoud)
         .put("exposureOn", s.exposureOn).put("autoContent", s.autoContent)
+        .put("carDevices", JSONArray(s.carDevices))
 
     fun fromJson(o: JSONObject, base: EqSettings): EqSettings {
         val sc = o.optJSONObject("schedule")
@@ -277,6 +282,7 @@ object EqState {
             schedPrevLoud = o.optBoolean("schedPrevLoud", false),
             exposureOn = o.optBoolean("exposureOn", true),
             autoContent = o.optBoolean("autoContent", false),
+            carDevices = strList(o.optJSONArray("carDevices")),
         )
     }
 
@@ -333,7 +339,9 @@ object EqState {
         val old = _output.value
         _output.value = o
         if (ctx != null && old.key != o.key && old.kind != OutputKind.UNKNOWN || ctx != null && old.kind == OutputKind.UNKNOWN && o.kind != OutputKind.UNKNOWN && old.key != o.key) {
-            settings.value.devicePreset[o.key]?.let { id -> if (find(id) != null && id != settings.value.presetId) select(ctx, id) }
+            val st = settings.value
+            val id = st.devicePreset[o.key] ?: if (isMazda(o)) CX5_DEFAULT_STYLE else null
+            if (id != null && find(id) != null && id != st.presetId) select(ctx, id)
         }
     }
 
@@ -386,22 +394,34 @@ object EqState {
 
     // ---------- Construction de la courbe ----------
 
-    /** Correction choisie pour cette sortie : "ft1", "none" ou id de profil. */
+    private val MAZDA = Regex("mazda|cx-?5", RegexOption.IGNORE_CASE)
+
+    /** La sortie est-elle le système de la Mazda ? (nom Bluetooth) */
+    fun isMazda(o: OutputInfo) = o.kind == OutputKind.BLUETOOTH && MAZDA.containsMatchIn(o.name)
+
+    /** Voiture ou enceinte : détectée (Mazda) ou marquée à la main. */
+    fun isCar(s: EqSettings, o: OutputInfo) = isMazda(o) || o.key in s.carDevices
+
+    /** Correction choisie pour cette sortie : "ft1", "cx5", "none" ou id de profil. */
     fun correctionFor(s: EqSettings, o: OutputInfo): String {
         if (!s.tweaks.ft1) return NONE
         s.deviceCorrection[o.key]?.let { return it }
+        if (isMazda(o)) return CX5
+        if (o.key in s.carDevices) return NONE
         if (!s.ft1Auto) return FT1
         return if (o.kind == OutputKind.FIIO || o.kind == OutputKind.WIRED || o.kind == OutputKind.UNKNOWN) FT1 else NONE
     }
 
     fun correctionName(s: EqSettings, id: String) = when (id) {
         FT1 -> "FiiO FT1"
+        CX5 -> "Mazda CX-5 Bose"
         NONE -> "Aucune"
         else -> s.profiles.firstOrNull { it.id == id }?.name ?: "Profil supprimé"
     }
 
     private fun correctionFilters(s: EqSettings, id: String): List<Filter> = when (id) {
         FT1 -> catalog.base
+        CX5 -> catalog.cx5Base
         NONE -> emptyList()
         else -> s.profiles.firstOrNull { it.id == id }?.filters.orEmpty()
     }

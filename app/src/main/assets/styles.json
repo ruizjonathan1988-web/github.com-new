@@ -20,6 +20,38 @@
    "q": 4.0
   }
  ],
+ "cx5_base": [
+  {
+   "type": "HP",
+   "f": 32.0,
+   "g": 0.0,
+   "q": 0.7
+  },
+  {
+   "type": "PK",
+   "f": 100.0,
+   "g": 1.5,
+   "q": 0.9
+  },
+  {
+   "type": "PK",
+   "f": 180.0,
+   "g": 2.0,
+   "q": 2.5
+  },
+  {
+   "type": "PK",
+   "f": 350.0,
+   "g": -2.0,
+   "q": 1.2
+  },
+  {
+   "type": "HS",
+   "f": 8000.0,
+   "g": 1.5,
+   "q": 0.7
+  }
+ ],
  "families": [
   {
    "id": "dnb",
@@ -469,6 +501,247 @@
        ]
       }
      ]
+    }
+   ]
+  },
+  {
+   "id": "cx5",
+   "name": "Mazda CX-5 Bose",
+   "c1": "#3A0508",
+   "c2": "#0D0102",
+   "accent": "#E8333A",
+   "anim": "rings",
+   "kind": "music",
+   "styles": [
+    {
+     "id": "cx5.reference_voiture",
+     "name": "Référence voiture",
+     "bpm": 0,
+     "desc": "Cible Harman voiture : grave plein, aigus naturels",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 90.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 3000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "cx5.electro_dnb_techno",
+     "name": "Électro / DnB / Techno",
+     "bpm": 174,
+     "desc": "Sub tenu sans faire saturer le petit caisson",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 55.0,
+       "g": 3.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 120.0,
+       "g": 1.0,
+       "q": 1.2
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 0.5,
+       "q": 0.7
+      }
+     ],
+     "subs": [
+      {
+       "id": "cx5.electro_dnb_techno.free_party_au_volant",
+       "name": "Free party au volant",
+       "bpm": 175,
+       "desc": "Façade de sound system, avec Punch Moyen",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 3.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 2500.0,
+         "g": 1.5,
+         "q": 1.0
+        },
+        {
+         "type": "HS",
+         "f": 12000.0,
+         "g": -1.0,
+         "q": 0.7
+        }
+       ]
+      },
+      {
+       "id": "cx5.electro_dnb_techno.jungle_breaks",
+       "name": "Jungle / breaks",
+       "bpm": 165,
+       "desc": "Corps des breaks, ghost notes",
+       "filters": [
+        {
+         "type": "LS",
+         "f": 60.0,
+         "g": 2.5,
+         "q": 0.7
+        },
+        {
+         "type": "PK",
+         "f": 180.0,
+         "g": 1.0,
+         "q": 1.5
+        },
+        {
+         "type": "PK",
+         "f": 5000.0,
+         "g": 1.5,
+         "q": 1.5
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cx5.rap_trap",
+     "name": "Rap / Trap",
+     "bpm": 140,
+     "desc": "808 et voix bien devant",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 50.0,
+       "g": 3.0,
+       "q": 1.1
+      },
+      {
+       "type": "PK",
+       "f": 200.0,
+       "g": -1.0,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 1500.0,
+       "g": 1.5,
+       "q": 1.0
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "cx5.rock_pop",
+     "name": "Rock / Pop",
+     "bpm": 120,
+     "desc": "Batterie et guitares",
+     "filters": [
+      {
+       "type": "PK",
+       "f": 100.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "PK",
+       "f": 3000.0,
+       "g": 1.0,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 10000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "cx5.voix_podcasts_radio_gps",
+     "name": "Voix : podcasts, radio, GPS",
+     "bpm": 0,
+     "desc": "Paroles nettes même sur la route",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 120.0,
+       "g": -3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2500.0,
+       "g": 2.5,
+       "q": 0.9
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "cx5.autoroute",
+     "name": "Autoroute",
+     "bpm": 0,
+     "desc": "Compense le bruit de roulement (avec AudioPilot coupé)",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 80.0,
+       "g": 3.0,
+       "q": 0.7
+      },
+      {
+       "type": "PK",
+       "f": 2000.0,
+       "g": 1.5,
+       "q": 1.0
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": 1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
+    },
+    {
+     "id": "cx5.ville_nuit_calme",
+     "name": "Ville / nuit calme",
+     "bpm": 0,
+     "desc": "Doux à bas volume",
+     "filters": [
+      {
+       "type": "LS",
+       "f": 70.0,
+       "g": 1.0,
+       "q": 0.7
+      },
+      {
+       "type": "HS",
+       "f": 8000.0,
+       "g": -1.0,
+       "q": 0.7
+      }
+     ],
+     "subs": []
     }
    ]
   },
