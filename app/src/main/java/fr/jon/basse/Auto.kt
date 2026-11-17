@@ -14,7 +14,7 @@ import android.os.Process
 
 // ---------- Sortie audio ----------
 
-enum class OutputKind { SPEAKER, FIIO, BLUETOOTH, WIRED, TV, UNKNOWN }
+enum class OutputKind { SPEAKER, FIIO, BLUETOOTH, WIRED, TV, CAR, UNKNOWN }
 
 data class OutputInfo(val kind: OutputKind = OutputKind.UNKNOWN, val name: String = "") {
     /** Identifiant stable de l'appareil, pour les réglages par appareil. */
@@ -26,12 +26,13 @@ data class OutputInfo(val kind: OutputKind = OutputKind.UNKNOWN, val name: Strin
             OutputKind.BLUETOOTH -> "Bluetooth : ${name.ifBlank { "appareil" }}"
             OutputKind.WIRED -> "Casque filaire / USB"
             OutputKind.TV -> "Sortie TV (HDMI)"
+            OutputKind.CAR -> "Android Auto (voiture)"
             OutputKind.UNKNOWN -> "Sortie inconnue"
         }
 }
 
 /** Surveille la sortie audio active (Android route le média vers le casque s'il y en a un). */
-class OutputWatcher(ctx: Context, private val onChange: (OutputInfo) -> Unit) {
+class OutputWatcher(private val ctx: Context, private val onChange: (OutputInfo) -> Unit) {
     private val am = ctx.getSystemService(AudioManager::class.java)
     private val handler = Handler(Looper.getMainLooper())
     private val cb = object : AudioDeviceCallback() {
@@ -46,6 +47,12 @@ class OutputWatcher(ctx: Context, private val onChange: (OutputInfo) -> Unit) {
 
     fun current(): OutputInfo {
         val outs = am.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        // Android Auto filaire : le téléphone passe en mode voiture et le son part par l'accessoire USB
+        val carMode = runCatching {
+            ctx.getSystemService(android.app.UiModeManager::class.java).currentModeType == android.content.res.Configuration.UI_MODE_TYPE_CAR
+        }.getOrDefault(false)
+        if (carMode || outs.any { it.type == AudioDeviceInfo.TYPE_USB_ACCESSORY || it.type == AudioDeviceInfo.TYPE_BUS })
+            return OutputInfo(OutputKind.CAR, "Android Auto")
         val bt = outs.firstOrNull {
             it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP ||
                 (android.os.Build.VERSION.SDK_INT >= 31 && (it.type == AudioDeviceInfo.TYPE_BLE_HEADSET || it.type == AudioDeviceInfo.TYPE_BLE_SPEAKER))

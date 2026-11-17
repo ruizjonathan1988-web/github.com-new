@@ -334,6 +334,14 @@ object EqState {
     fun setVolume(v: Float) { if (kotlin.math.abs(v - _volume.value) > 0.01f) _volume.value = v }
     fun setTesting(on: Boolean) { _testing.value = on }
 
+    /** Test d'effet : coupe fortement les aigus pendant quelques secondes, impossible à rater si Basse agit bien. */
+    private val _fxTest = MutableStateFlow(false)
+    val fxTest: StateFlow<Boolean> = _fxTest.asStateFlow()
+    fun runFxTest(seconds: Long = 5) {
+        _fxTest.value = true
+        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({ _fxTest.value = false }, seconds * 1000)
+    }
+
     /** Change de sortie : applique le style associé à cet appareil s'il y en a un. */
     fun setOutput(o: OutputInfo, ctx: Context? = null) {
         val old = _output.value
@@ -397,7 +405,7 @@ object EqState {
     private val MAZDA = Regex("mazda|cx-?5", RegexOption.IGNORE_CASE)
 
     /** La sortie est-elle le système de la Mazda ? (nom Bluetooth) */
-    fun isMazda(o: OutputInfo) = o.kind == OutputKind.BLUETOOTH && MAZDA.containsMatchIn(o.name)
+    fun isMazda(o: OutputInfo) = o.kind == OutputKind.CAR || (o.kind == OutputKind.BLUETOOTH && MAZDA.containsMatchIn(o.name))
 
     /** Voiture ou enceinte : détectée (Mazda) ou marquée à la main. */
     fun isCar(s: EqSettings, o: OutputInfo) = isMazda(o) || o.key in s.carDevices

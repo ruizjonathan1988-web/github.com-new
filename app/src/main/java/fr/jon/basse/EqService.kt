@@ -75,8 +75,8 @@ class EqService : Service() {
         poller.start()
 
         scope.launch {
-            combine(EqState.settings, EqState.output, EqState.volume, EqState.testing) { s, o, v, t -> listOf(s, o, v, t) }.collect { l ->
-                val s = l[0] as EqSettings; val o = l[1] as OutputInfo; val v = l[2] as Float; val testing = l[3] as Boolean
+            combine(EqState.settings, EqState.output, EqState.volume, EqState.testing, EqState.fxTest) { s, o, v, t, fx -> listOf(s, o, v, t, fx) }.collect { l ->
+                val s = l[0] as EqSettings; val o = l[1] as OutputInfo; val v = l[2] as Float; val testing = l[3] as Boolean; val fx = l[4] as Boolean
                 if (!s.enabled) {
                     engine.setActive(false)
                     engine.releaseAll()
@@ -85,14 +85,18 @@ class EqService : Service() {
                     stopSelf()
                     return@collect
                 }
-                val chain = if (testing) EqState.testChain(s, o) else EqState.currentChain(s, o, v)
+                val chain = when {
+                    fx -> listOf(Filter("LP", 400.0, 0.0, 0.7), Filter("LP", 400.0, 0.0, 0.7))
+                    testing -> EqState.testChain(s, o)
+                    else -> EqState.currentChain(s, o, v)
+                }
                 engine.setCurve(chain, if (testing) Curve.autoPreamp(chain) else EqState.preampDb(s, chain),
                     if (testing) 0.0 else s.balance, s.ceilingDb, if (testing) 0 else s.punch)
                 if (lastGlobalWanted != s.globalMode) {
                     lastGlobalWanted = s.globalMode
                     if (s.globalMode) engine.attach(0) else engine.detach(0)
                 }
-                engine.setActive(!EqState.pausedBySpeaker(s, o))
+                engine.setActive(fx || !EqState.pausedBySpeaker(s, o))
                 publish(null)
                 notifyUpdate(s)
             }

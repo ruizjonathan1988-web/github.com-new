@@ -90,11 +90,18 @@ fun CurveCard(p: PanelCtx) {
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.weight(1f)) { StatusLine(p) }
+            ActionChip("Tester", p.accent) {
+                if (!p.s.enabled) p.cb.toggle()
+                EqState.runFxTest()
+            }
+            Spacer(Modifier.width(6.dp))
             ActionChip(if (spectrum) "Courbe" else "Spectre", p.accent) {
                 if (!spectrum && !Analyzer.hasPermission(ctx)) p.cb.askMic()
                 spectrum = !spectrum
             }
         }
+        val fx by EqState.fxTest.collectAsState()
+        if (fx) Hint("Test en cours (5 s) : le son doit devenir très étouffé. Sinon, Basse n'agit pas sur cette lecture.", Warn)
         if (spectrum && !Analyzer.hasPermission(ctx)) Hint("Le spectre a besoin de l'autorisation micro (rien n'est enregistré, Basse lit seulement le son qui sort).", Warn)
         else if (spectrum && !p.s.enabled) Hint("Allumez Basse (ON) pour voir le spectre.")
     }

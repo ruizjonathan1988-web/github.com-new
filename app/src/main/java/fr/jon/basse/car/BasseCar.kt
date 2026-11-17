@@ -79,9 +79,17 @@ class MainScreen(ctx: CarContext) : Screen(ctx) {
                 .setOnClickListener { EqState.update(carContext) { it.copy(punch = (it.punch + 1) % 3) } } // Fort exclu en voiture
                 .build(),
         )
+        items.addItem(
+            GridItem.Builder().setTitle("Tester").setText("Son étouffé 5 s si Basse agit")
+                .setImage(icon(carContext, R.drawable.ic_notif, CarColor.YELLOW))
+                .setOnClickListener {
+                    if (!EqState.settings.value.enabled) { EqState.update(carContext) { it.copy(enabled = true) }; EqService.start(carContext) }
+                    EqState.runFxTest()
+                }.build(),
+        )
         val styles = EqState.catalog.families.firstOrNull { it.id == "cx5" }?.let { f -> f.styles.flatMap { listOf(it) + it.subs } }.orEmpty()
         val max = limit(carContext)
-        styles.take((max - 2).coerceAtLeast(2)).forEach { p ->
+        styles.take((max - 3).coerceAtLeast(2)).forEach { p ->
             val sel = p.id == s.presetId
             items.addItem(
                 GridItem.Builder().setTitle(p.name).setText(if (sel) "● actif" else " ")
